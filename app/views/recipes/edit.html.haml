@@ -1,7 +1,4 @@
-%h1 Editing recipe
-
-= render 'form'
-
-= link_to 'Show', @recipe
-\|
-= link_to 'Back', recipes_path
+- model_class = Recipe
+.page-header
+  %h1=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize
+= render :partial => "form"
