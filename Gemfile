@@ -56,3 +56,4 @@ gem "twitter-bootstrap-rails"
 
 gem "haml-rails"
 gem 'simple_form'
+gem 'annotate'
