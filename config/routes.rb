@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   resources :recipes do
-    resources :ingredients, shallow: true
+    # resources :ingredients, shallow: true
   end
   root 'recipes#index'
 
