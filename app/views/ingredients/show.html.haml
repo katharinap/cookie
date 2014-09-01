@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Recipe:
+  = @ingredient.recipe_id
+%p
+  %b Additive:
+  = @ingredient.additive
+%p
+  %b Amount:
+  = @ingredient.amount
+
+= link_to 'Edit', edit_ingredient_path(@ingredient)
+\|
+= link_to 'Back', ingredients_path

@@ -1,0 +1,10 @@
+= simple_form_for(@ingredient) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :recipe_id
+    = f.input :additive
+    = f.input :amount
+
+  .form-actions
+    = f.button :submit
