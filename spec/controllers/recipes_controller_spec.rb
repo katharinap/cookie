@@ -20,13 +20,6 @@ require 'rails_helper'
 
 RSpec.describe RecipesController, :type => :controller do
 
-  # This should return the minimal set of attributes required to create a valid
-  # Recipe. As you add validations to Recipe, be sure to
-  # adjust the attributes here as well.
-  # let(:valid_attributes) {
-  #   {directions: "..."}
-  # }
-
   let(:invalid_attributes) {
     {name: ""}
   }
@@ -35,7 +28,12 @@ RSpec.describe RecipesController, :type => :controller do
   # in order to pass any filters (e.g. authentication) defined in
   # RecipesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
-  
+
+  # creates and returns two ingredient records for the given recipe
+  def create_ingredients(recipe, count: 2)
+    (1..count).map{|i| create(:ingredient, recipe_id: recipe.id)}
+  end
+
   describe "GET index" do
     it "assigns all recipes as @recipes" do
       recipe = create(:recipe)
@@ -47,8 +45,10 @@ RSpec.describe RecipesController, :type => :controller do
   describe "GET show" do
     it "assigns the requested recipe as @recipe" do
       recipe = create(:recipe)
+      ingredients = create_ingredients(recipe)
       get :show, {:id => recipe.to_param}, valid_session
       expect(assigns(:recipe)).to eq(recipe)
+      expect(assigns(:ingredients)).to eq(ingredients)
     end
   end
 
@@ -62,8 +62,10 @@ RSpec.describe RecipesController, :type => :controller do
   describe "GET edit" do
     it "assigns the requested recipe as @recipe" do
       recipe = create(:recipe)
+      ingredients = create_ingredients(recipe)
       get :edit, {:id => recipe.to_param}, valid_session
       expect(assigns(:recipe)).to eq(recipe)
+      expect(assigns(:ingredients)).to eq(ingredients)
     end
   end
 
@@ -76,9 +78,15 @@ RSpec.describe RecipesController, :type => :controller do
       end
 
       it "assigns a newly created recipe as @recipe" do
-        post :create, {:recipe => attributes_for(:recipe)}, valid_session
+        # FIXME: add ingredients_attributes...
+        # recipe_attributes = attributes_for(:recipe).merge(["" => {ingredients_attributes: attributes_for(:ingredient)}])
+        recipe_attributes = attributes_for(:recipe)
+        post :create, {:recipe => recipe_attributes}, valid_session
         expect(assigns(:recipe)).to be_a(Recipe)
         expect(assigns(:recipe)).to be_persisted
+        # expect(assigns(:ingredients)).to have(1).items
+        # expect(assigns(:ingredients).first).to be_a(Ingredient)
+        # expect(assigns(:ingredients).first).to be_persisted
       end
 
       it "redirects to the created recipe" do
@@ -105,19 +113,24 @@ RSpec.describe RecipesController, :type => :controller do
       let(:new_attributes) {
         {name: "New Recipe Name", directions: "lots of steps to follow..."}
       }
-
+      
       it "updates the requested recipe" do
         recipe = create(:recipe)
-        put :update, {:id => recipe.to_param, :recipe => new_attributes}, valid_session
+        ingredient = create_ingredients(recipe, count: 1).first
+        put :update, {:id => recipe.to_param, :recipe => new_attributes.merge({ingredients_attributes: {ingredient.id.to_s => {id: ingredient.id.to_s, additive: "Tofu"}}})}, valid_session
         recipe.reload
+        recipe.ingredients.reload
         expect(assigns(:recipe).name).to eq(new_attributes[:name])
         expect(assigns(:recipe).directions).to eq(new_attributes[:directions])
+        expect(assigns(:ingredients).first.additive).to eq("Tofu")
       end
 
       it "assigns the requested recipe as @recipe" do
         recipe = create(:recipe)
-        put :update, {:id => recipe.to_param, :recipe => attributes_for(:recipe)}, valid_session
+        ingredient = create_ingredients(recipe, count: 1).first
+        put :update, {:id => recipe.to_param, :recipe => new_attributes.merge({ingredients_attributes: {ingredient.id.to_s => {id: ingredient.id.to_s, additive: "Tofu"}}})}, valid_session
         expect(assigns(:recipe)).to eq(recipe)
+        expect(assigns(:ingredients).size).to eq(1)
       end
 
       it "redirects to the recipe" do
@@ -148,6 +161,14 @@ RSpec.describe RecipesController, :type => :controller do
       expect {
         delete :destroy, {:id => recipe.to_param}, valid_session
       }.to change(Recipe, :count).by(-1)
+    end
+
+    it "destroys the associated ingredients" do
+      recipe = create(:recipe)
+      create_ingredients(recipe)
+      expect {
+        delete :destroy, {:id => recipe.to_param}, valid_session
+      }.to change(Ingredient, :count).by(-2)
     end
 
     it "redirects to the recipes list" do
