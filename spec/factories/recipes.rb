@@ -9,7 +9,11 @@
 #  updated_at :datetime         not null
 #
 
-class Recipe < ActiveRecord::Base
-  has_many :ingredients
-  validates :name, uniqueness: true, presence: true
+FactoryGirl.define do
+  factory :recipe do
+    sequence :name do |n|
+      "Awesome Recipe #{n}"
+    end
+    directions "First do something, then do something else"
+  end
 end

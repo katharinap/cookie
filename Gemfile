@@ -46,6 +46,9 @@ group :development, :test do
   gem 'spring'
 
   gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
+  
   gem 'thin'
 end
 
