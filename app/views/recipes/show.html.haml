@@ -6,6 +6,14 @@
   %strong= model_class.human_attribute_name(:name) + ':'
   %br
   = @recipe.name
+
+%p
+  %strong= 'Ingredients:'
+  %br
+  - @recipe.ingredients.each do |ingredient|
+    = ingredient.amount
+    = ingredient.additive
+    %br
 %p
   %strong= model_class.human_attribute_name(:directions) + ':'
   %br

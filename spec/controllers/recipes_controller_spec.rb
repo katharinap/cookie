@@ -48,7 +48,7 @@ RSpec.describe RecipesController, :type => :controller do
       ingredients = create_ingredients(recipe)
       get :show, {:id => recipe.to_param}, valid_session
       expect(assigns(:recipe)).to eq(recipe)
-      expect(assigns(:ingredients)).to eq(ingredients)
+      expect(assigns(:recipe).ingredients).to eq(ingredients)
     end
   end
 
@@ -65,7 +65,7 @@ RSpec.describe RecipesController, :type => :controller do
       ingredients = create_ingredients(recipe)
       get :edit, {:id => recipe.to_param}, valid_session
       expect(assigns(:recipe)).to eq(recipe)
-      expect(assigns(:ingredients)).to eq(ingredients)
+      expect(assigns(:recipe).ingredients).to eq(ingredients)
     end
   end
 
@@ -122,7 +122,7 @@ RSpec.describe RecipesController, :type => :controller do
         recipe.ingredients.reload
         expect(assigns(:recipe).name).to eq(new_attributes[:name])
         expect(assigns(:recipe).directions).to eq(new_attributes[:directions])
-        expect(assigns(:ingredients).first.additive).to eq("Tofu")
+        expect(assigns(:recipe).ingredients.first.additive).to eq("Tofu")
       end
 
       it "assigns the requested recipe as @recipe" do
@@ -130,7 +130,7 @@ RSpec.describe RecipesController, :type => :controller do
         ingredient = create_ingredients(recipe, count: 1).first
         put :update, {:id => recipe.to_param, :recipe => new_attributes.merge({ingredients_attributes: {ingredient.id.to_s => {id: ingredient.id.to_s, additive: "Tofu"}}})}, valid_session
         expect(assigns(:recipe)).to eq(recipe)
-        expect(assigns(:ingredients).size).to eq(1)
+        expect(assigns(:recipe).ingredients.size).to eq(1)
       end
 
       it "redirects to the recipe" do

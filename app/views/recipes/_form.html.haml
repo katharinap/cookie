@@ -1,6 +1,13 @@
-= simple_form_for @recipe, :html => { :class => 'form-horizontal' } do |f|
+= simple_nested_form_for @recipe, :html => { :class => 'form-horizontal' } do |f|
   = f.input :name
   = error_span(@recipe[:name])
+
+  = f.fields_for :ingredients do |i_form|
+    = i_form.input :amount
+    = i_form.input :additive
+    = i_form.link_to_remove "Remove this Ingredient"
+  = f.link_to_add "Add an Ingredient", :ingredients
+
   = f.input :directions
   = error_span(@recipe[:directions])
   = f.button :submit, :class => 'btn-primary'

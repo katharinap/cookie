@@ -15,6 +15,7 @@ class RecipesController < ApplicationController
   # GET /recipes/new
   def new
     @recipe = Recipe.new
+    @recipe.ingredients.build
   end
 
   # GET /recipes/1/edit
@@ -65,7 +66,6 @@ class RecipesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_recipe
       @recipe = Recipe.includes(:ingredients).find(params[:id])
-      @ingredients = @recipe.ingredients
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
