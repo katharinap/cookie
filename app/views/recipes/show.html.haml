@@ -12,7 +12,8 @@
   %br
   - @recipe.ingredients.each do |ingredient|
     = ingredient.amount
-    = ingredient.additive
+    = ingredient.name
+    = ingredient.notes
     %br
 %p
   %strong= model_class.human_attribute_name(:directions) + ':'

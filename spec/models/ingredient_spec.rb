@@ -4,10 +4,11 @@
 #
 #  id         :integer          not null, primary key
 #  recipe_id  :integer
-#  additive   :string
+#  name       :string
 #  amount     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  notes      :string
 #
 
 require 'rails_helper'

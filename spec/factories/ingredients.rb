@@ -4,16 +4,17 @@
 #
 #  id         :integer          not null, primary key
 #  recipe_id  :integer
-#  additive   :string
+#  name       :string
 #  amount     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  notes      :string
 #
 
 FactoryGirl.define do
   factory :ingredient do
     recipe
-    additive "MyString"
+    name "MyString"
     amount "8 oz dry round udon noodles"
   end
 end
