@@ -1,15 +1,28 @@
 = simple_nested_form_for @recipe, :html => { :class => 'form-horizontal' } do |f|
-  = f.input :name
+  = f.input :name, label: false
   = error_span(@recipe[:name])
 
-  = f.fields_for :ingredients do |i_form|
-    = i_form.input :amount
-    = i_form.input :name
-    = i_form.input :notes
-    = i_form.link_to_remove "Remove this Ingredient"
-  = f.link_to_add "Add an Ingredient", :ingredients
+  %h2 Ingredients
+  
+  %table.table.table-condensed#ingredients
+    %thead
+      %tr
+        %th Amount
+        %th Ingredient
+        %th Notes
+        %th
+    %tbody
+      = f.fields_for :ingredients, :wrapper => false do |i_form|
+        %tr.fields
+          %td= i_form.input :amount, label: false
+          %td= i_form.input :name, label: false
+          %td= i_form.input :notes, label: false
+          %td= i_form.link_to_remove "Remove"
+  = f.link_to_add "Add", :ingredients, data: { target: "#ingredients" }
 
-  = f.input :directions
+  %h2 Directions
+  
+  = f.input :directions, label: false, :input_html => { class: 'form-control', rows: 20}
   = error_span(@recipe[:directions])
   = f.button :submit, :class => 'btn-primary'
   = link_to t('.cancel', :default => t("helpers.links.cancel")), recipes_path, :class => 'btn btn-default'
