@@ -24,5 +24,15 @@
   
   = f.input :directions, label: false, :input_html => { class: 'form-control', rows: 20}
   = error_span(@recipe[:directions])
+
+  %h2 References
+
+  = f.fields_for :references do |r_form|
+    = r_form.input :url, input_html: { placeholder: "Enter URL" }, label: false
+    = r_form.link_to_remove "Remove"
+  = f.link_to_add "Add", :references
+
+  %br
+    
   = f.button :submit, :class => 'btn-primary'
   = link_to t('.cancel', :default => t("helpers.links.cancel")), recipes_path, :class => 'btn btn-default'
