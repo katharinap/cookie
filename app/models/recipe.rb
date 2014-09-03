@@ -14,4 +14,11 @@ class Recipe < ActiveRecord::Base
 
   has_many :ingredients, dependent: :destroy
   accepts_nested_attributes_for :ingredients, allow_destroy: true
+
+  # returns an array of directions paragraphs (split by newlines)
+  def steps
+    the_steps = directions.split("\n")
+    the_steps.delete_if { |s| s.blank? }
+    the_steps
+  end
 end

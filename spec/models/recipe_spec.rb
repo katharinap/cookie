@@ -24,5 +24,15 @@ RSpec.describe Recipe, :type => :model do
     it "is valid with a non-empty name" do
       expect(build(:recipe, name: "my validation recipe")).to be_valid
     end
-  end      
+  end
+
+  describe ".steps" do
+    it "returns  the steps included in the directions" do
+      expect(create(:recipe, directions: "aaa\nbbb\n").steps).to eq(%w(aaa bbb))
+    end
+
+    it "ignores empty lines" do
+      expect(create(:recipe, directions: "aaa\n\n\n\nbbb\n\n").steps).to eq(%w(aaa bbb))
+    end
+  end
 end

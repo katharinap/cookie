@@ -8,13 +8,15 @@
   - @recipe.ingredients.each do |ingredient|
     = ingredient.amount
     = ingredient.name
-    = ingredient.notes
+    - if ingredient.has_notes?
+      (#{ingredient.notes})
     %br
 %p
   %strong= model_class.human_attribute_name(:directions) + ':'
   %br
-  = @recipe.directions
-
+  - @recipe.steps.each do |step|
+    %p
+      = step
 
 = link_to t('.back', :default => t("helpers.links.back")), recipes_path, :class => 'btn btn-default'
 = link_to t('.edit', :default => t("helpers.links.edit")), edit_recipe_path(@recipe), :class => 'btn btn-default'
