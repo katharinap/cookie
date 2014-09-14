@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-  resources :recipes do
-    # resources :ingredients, shallow: true
-  end
+  get 'recipes/pre_new' => 'recipes#pre_new'
+  resources :recipes
+
   root 'recipes#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -14,7 +14,7 @@
 FactoryGirl.define do
   factory :ingredient do
     recipe
-    name "MyString"
-    amount "8 oz dry round udon noodles"
+    sequence(:name) { |n| "#{n.ordinalize} Ingredient" }
+    sequence(:amount) { |n| "#{rand(10)} cups" }
   end
 end

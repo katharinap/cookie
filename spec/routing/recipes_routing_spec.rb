@@ -11,6 +11,10 @@ RSpec.describe RecipesController, :type => :routing do
       expect(:get => "/recipes/new").to route_to("recipes#new")
     end
 
+    it "routes to #pre_new" do
+      expect(:get => "/recipes/pre_new").to route_to("recipes#pre_new")
+    end
+
     it "routes to #show" do
       expect(:get => "/recipes/1").to route_to("recipes#show", :id => "1")
     end

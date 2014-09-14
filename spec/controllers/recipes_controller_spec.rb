@@ -78,15 +78,20 @@ RSpec.describe RecipesController, :type => :controller do
       end
 
       it "assigns a newly created recipe as @recipe" do
-        # FIXME: add ingredients_attributes...
-        # recipe_attributes = attributes_for(:recipe).merge(["" => {ingredients_attributes: attributes_for(:ingredient)}])
-        recipe_attributes = attributes_for(:recipe)
+        ingredient_attributes = attributes_for(:ingredient)
+        recipe_attributes = attributes_for(:recipe).merge({ ingredients_attributes: {'1' => ingredient_attributes}})
         post :create, {:recipe => recipe_attributes}, valid_session
         expect(assigns(:recipe)).to be_a(Recipe)
         expect(assigns(:recipe)).to be_persisted
-        # expect(assigns(:ingredients)).to have(1).items
-        # expect(assigns(:ingredients).first).to be_a(Ingredient)
-        # expect(assigns(:ingredients).first).to be_persisted
+      end
+
+      it "assigns creates the ingredients" do
+        recipe_attributes = attributes_for(:recipe).merge({ ingredients_attributes: {'1' => attributes_for(:ingredient), '2' => attributes_for(:ingredient) }})
+        post :create, {:recipe => recipe_attributes}, valid_session
+        ingredients = assigns(:recipe).ingredients
+        expect(ingredients.count).to eq(2)
+        expect(ingredients.first).to be_a(Ingredient)
+        expect(ingredients.first).to be_persisted
       end
 
       it "redirects to the created recipe" do
