@@ -15,7 +15,11 @@ class RecipesController < ApplicationController
   # GET /recipes/new
   def new
     @recipe = Recipe.new
-    @recipe.ingredients.build
+    if pre_new_params.empty?
+      @recipe.ingredients.build
+    else
+      @recipe.prepare_recipe(pre_new_params)
+    end
   end
 
   # GET /recipes/1/edit
@@ -71,5 +75,9 @@ class RecipesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def recipe_params
       params.require(:recipe).permit(:name, :directions, ingredients_attributes: [:id, :name, :amount, :notes, :_destroy], references_attributes: [:id, :url, :_destroy])
+    end
+
+    def pre_new_params
+      params.permit(:name, :ingredients, :directions)
     end
 end

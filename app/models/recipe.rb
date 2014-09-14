@@ -24,4 +24,16 @@ class Recipe < ActiveRecord::Base
     the_steps.delete_if { |s| s.blank? }
     the_steps
   end
+
+  def prepare_recipe(params)
+    %i(name directions).each do |attr|
+      self.send("#{attr}=", params[attr].strip) unless params[attr].blank?
+    end
+    
+    unless params[:ingredients].blank?
+      params[:ingredients].split("\n").each do |ingredient_str|
+        ingredients.build(name: ingredient_str.strip) unless ingredient_str.strip.blank?
+      end
+    end
+  end
 end
