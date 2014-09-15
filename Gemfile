@@ -62,3 +62,4 @@ gem "haml-rails"
 gem 'simple_form'
 gem 'annotate'
 gem "nested_form"
+gem 'local_time'
