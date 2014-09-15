@@ -11,7 +11,7 @@ RSpec.describe "recipes/new", :type => :view do
     render
     assert_select "form[action=?][method=?]", recipes_path, "post" do
       assert_select "input#recipe_name[name=?]", "recipe[name]"
-      %i(name amount notes _destroy).each do |attr|
+      %i(value _destroy).each do |attr|
         assert_select "input#recipe_ingredients_attributes_0_#{attr}[name=?]", "recipe[ingredients_attributes][0][#{attr}]"
       end
       assert_select "a[data-association=?][data-target=?]", 'ingredients', '#ingredients'

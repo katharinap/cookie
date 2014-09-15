@@ -4,17 +4,14 @@
 #
 #  id         :integer          not null, primary key
 #  recipe_id  :integer
-#  name       :string
-#  amount     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  notes      :string
+#  value      :string
 #
 
 FactoryGirl.define do
   factory :ingredient do
     recipe
-    sequence(:name) { |n| "#{n.ordinalize} Ingredient" }
-    sequence(:amount) { |n| "#{rand(10)} cups" }
+    sequence(:value) { |n| "#{rand(10)} cups #{n.ordinalize} Ingredient" }
   end
 end

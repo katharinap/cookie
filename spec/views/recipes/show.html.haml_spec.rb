@@ -18,7 +18,7 @@ RSpec.describe "recipes/show", :type => :view do
     assert_select 'p', text: 'step 2'
     assert_select 'a[href=?]', recipes_path, text: 'Back'
     assert_select 'a[href=?]', edit_recipe_path('1'), text: 'Edit'
-    assert_select 'a[href=?][data-method=?][data-confirm=?]', recipe_path('1'), 'delete', 'Are you sure?', text: 'Delete'
+    assert_select 'a[href=?][data-method=?][data-confirm=?]', recipe_path('1'), 'delete', 'Are you sure?'
   end
 
   protected
@@ -28,6 +28,6 @@ RSpec.describe "recipes/show", :type => :view do
   end
 
   def stub_ingredient(i, recipe)
-    stub_model(Ingredient, attributes_for(:ingredient, recipe_id: recipe.id, amount: "#{i} cup", name: "ingredient #{i}"))
+    stub_model(Ingredient, attributes_for(:ingredient, recipe_id: recipe.id, value: "#{i} cup ingredient #{i}"))
   end
 end

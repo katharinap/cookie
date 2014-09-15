@@ -12,7 +12,7 @@ RSpec.describe "recipes/edit", :type => :view do
     assert_select "form[action=?][method=?]", recipe_path('1'), "post" do
       assert_select "input#recipe_name[name=?]", "recipe[name]"
       [1,2].each_with_index do |id, idx|
-        %i(name amount notes id _destroy).each do |attr|
+        %i(value id _destroy).each do |attr|
           assert_select "input#recipe_ingredients_attributes_#{idx}_#{attr}[name=?]", "recipe[ingredients_attributes][#{idx}][#{attr}]"
         end
         assert_select "input#recipe_ingredients_attributes_#{idx}_id[value=?]", id.to_s

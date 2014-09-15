@@ -6,10 +6,7 @@
   %strong= 'Ingredients:'
   %br
   - @recipe.ingredients.each do |ingredient|
-    = ingredient.amount
-    = ingredient.name
-    - if ingredient.has_notes?
-      (#{ingredient.notes})
+    = ingredient.value
     %br
 %p
   %strong= model_class.human_attribute_name(:directions) + ':'

@@ -1,23 +1,15 @@
 = simple_nested_form_for @recipe, :html => { :class => 'form-horizontal' } do |f|
-  = f.input :name, label: false
+  = f.input :name, label: false, input_html: {class: 'form-control'}
   = error_span(@recipe[:name])
 
   %h2 Ingredients
-  
-  %table.table.table-condensed#ingredients
-    %thead
-      %tr
-        %th Amount
-        %th Ingredient
-        %th Notes
-        %th
-    %tbody
-      = f.fields_for :ingredients, :wrapper => false do |i_form|
-        %tr.fields
-          %td= i_form.input :amount, label: false
-          %td= i_form.input :name, label: false
-          %td= i_form.input :notes, label: false
-          %td= i_form.link_to_remove "Remove"
+
+  = f.fields_for :ingredients, :wrapper => false do |i_form|
+    .row.form-group
+      .col-md-11
+        = i_form.input :value, label: false, input_html: {class: 'form-control'}
+      .col-md-1
+        = i_form.link_to_remove "Remove"
   = f.link_to_add "Add", :ingredients, data: { target: "#ingredients" }
 
   %h2 Directions
