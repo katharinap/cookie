@@ -13,13 +13,13 @@ class Recipe < ActiveRecord::Base
   validates :name, uniqueness: true, presence: true
 
   has_many :ingredients, dependent: :destroy
-  accepts_nested_attributes_for :ingredients, allow_destroy: true
+  accepts_nested_attributes_for :ingredients, allow_destroy: true, reject_if: proc { |attributes| attributes['value'].blank? }
 
   has_many :references, dependent: :destroy
   accepts_nested_attributes_for :references, allow_destroy: true
 
   has_many :steps, dependent: :destroy
-  accepts_nested_attributes_for :steps, allow_destroy: true
+  accepts_nested_attributes_for :steps, allow_destroy: true, reject_if: proc { |attributes| attributes['description'].blank? }
   
   def prepare_recipe(params)
     %i(name directions).each do |attr|

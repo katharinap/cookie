@@ -22,7 +22,7 @@ RSpec.describe "recipes/edit", :type => :view do
         end
         assert_select "input#recipe_steps_attributes_#{idx}_id[value=?]", id.to_s
       end
-      assert_select "a[data-association=?][data-target=?]", 'ingredients', '#ingredients'
+      assert_select "a[data-association=?]", 'ingredients'
     end
   end
   
