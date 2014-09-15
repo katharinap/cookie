@@ -4,9 +4,9 @@
 #
 #  id         :integer          not null, primary key
 #  name       :string
-#  directions :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  directions :text
 #
 
 FactoryGirl.define do
@@ -14,6 +14,5 @@ FactoryGirl.define do
     sequence :name do |n|
       "Awesome Recipe #{n}"
     end
-    directions "First do something, then do something else"
   end
 end

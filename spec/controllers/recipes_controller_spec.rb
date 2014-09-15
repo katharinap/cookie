@@ -31,7 +31,15 @@ RSpec.describe RecipesController, :type => :controller do
 
   # creates and returns two ingredient records for the given recipe
   def create_ingredients(recipe, count: 2)
-    (1..count).map{|i| create(:ingredient, recipe_id: recipe.id)}
+    (1..count).map do |i|
+      create :ingredient, recipe_id: recipe.id
+    end
+  end
+
+  def create_steps(recipe, count: 2)
+    (1..count).map do |i|
+      create :step, recipe_id: recipe.id
+    end
   end
 
   describe "GET index" do
@@ -46,9 +54,11 @@ RSpec.describe RecipesController, :type => :controller do
     it "assigns the requested recipe as @recipe" do
       recipe = create(:recipe)
       ingredients = create_ingredients(recipe)
+      steps = create_steps(recipe)
       get :show, {:id => recipe.to_param}, valid_session
       expect(assigns(:recipe)).to eq(recipe)
       expect(assigns(:recipe).ingredients).to eq(ingredients)
+      expect(assigns(:recipe).steps).to eq(steps)
     end
   end
 
@@ -63,9 +73,11 @@ RSpec.describe RecipesController, :type => :controller do
     it "assigns the requested recipe as @recipe" do
       recipe = create(:recipe)
       ingredients = create_ingredients(recipe)
+      steps = create_steps(recipe)
       get :edit, {:id => recipe.to_param}, valid_session
       expect(assigns(:recipe)).to eq(recipe)
       expect(assigns(:recipe).ingredients).to eq(ingredients)
+      expect(assigns(:recipe).steps).to eq(steps)
     end
   end
 
@@ -79,7 +91,8 @@ RSpec.describe RecipesController, :type => :controller do
 
       it "assigns a newly created recipe as @recipe" do
         ingredient_attributes = attributes_for(:ingredient)
-        recipe_attributes = attributes_for(:recipe).merge({ ingredients_attributes: {'1' => ingredient_attributes}})
+        step_attributes = attributes_for(:step)
+        recipe_attributes = attributes_for(:recipe).merge({ ingredients_attributes: {'1' => ingredient_attributes}, steps_attributes: {'1' => step_attributes}})
         post :create, {:recipe => recipe_attributes}, valid_session
         expect(assigns(:recipe)).to be_a(Recipe)
         expect(assigns(:recipe)).to be_persisted
@@ -92,6 +105,15 @@ RSpec.describe RecipesController, :type => :controller do
         expect(ingredients.count).to eq(2)
         expect(ingredients.first).to be_a(Ingredient)
         expect(ingredients.first).to be_persisted
+      end
+
+      it "assigns creates the steps" do
+        recipe_attributes = attributes_for(:recipe).merge({ steps_attributes: {'1' => attributes_for(:step), '2' => attributes_for(:step) }})
+        post :create, {:recipe => recipe_attributes}, valid_session
+        steps = assigns(:recipe).steps
+        expect(steps.count).to eq(2)
+        expect(steps.first).to be_a(Step)
+        expect(steps.first).to be_persisted
       end
 
       it "redirects to the created recipe" do
@@ -122,20 +144,23 @@ RSpec.describe RecipesController, :type => :controller do
       it "updates the requested recipe" do
         recipe = create(:recipe)
         ingredient = create_ingredients(recipe, count: 1).first
-        put :update, {:id => recipe.to_param, :recipe => new_attributes.merge({ingredients_attributes: {ingredient.id.to_s => {id: ingredient.id.to_s, value: "Tofu"}}})}, valid_session
+        step = create_steps(recipe, count: 1).first
+        the_params = {:id => recipe.to_param, :recipe => new_attributes.merge({ ingredients_attributes: {ingredient.id.to_s => {id: ingredient.id.to_s, value: "Tofu"}}, steps_attributes: {step.id.to_s => {id: step.id.to_s, description: 'Do something'}}})}
+        put :update, the_params, valid_session
         recipe.reload
-        # recipe.ingredients.reload
         expect(assigns(:recipe).name).to eq(new_attributes[:name])
-        expect(assigns(:recipe).directions).to eq(new_attributes[:directions])
         expect(assigns(:recipe).ingredients.first.value).to eq("Tofu")
+        expect(assigns(:recipe).steps.first.description).to eq('Do something')
       end
 
       it "assigns the requested recipe as @recipe" do
         recipe = create(:recipe)
         ingredient = create_ingredients(recipe, count: 1).first
-        put :update, {:id => recipe.to_param, :recipe => new_attributes.merge({ingredients_attributes: {ingredient.id.to_s => {id: ingredient.id.to_s, value: "Tofu"}}})}, valid_session
+        step = create_steps(recipe, count: 1).first
+        put :update, {:id => recipe.to_param, :recipe => new_attributes.merge({ingredients_attributes: {ingredient.id.to_s => {id: ingredient.id.to_s, value: "Tofu"}}, steps_attributes: {step.id.to_s => {id: step.id.to_s, description: "Do something"}}})}, valid_session
         expect(assigns(:recipe)).to eq(recipe)
         expect(assigns(:recipe).ingredients.size).to eq(1)
+        expect(assigns(:recipe).steps.size).to eq(1)
       end
 
       it "redirects to the recipe" do
@@ -174,6 +199,14 @@ RSpec.describe RecipesController, :type => :controller do
       expect {
         delete :destroy, {:id => recipe.to_param}, valid_session
       }.to change(Ingredient, :count).by(-2)
+    end
+
+    it "destroys the associated steps" do
+      recipe = create(:recipe)
+      create_steps(recipe)
+      expect {
+        delete :destroy, {:id => recipe.to_param}, valid_session
+      }.to change(Step, :count).by(-2)
     end
 
     it "redirects to the recipes list" do

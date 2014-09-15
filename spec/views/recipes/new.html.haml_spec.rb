@@ -5,6 +5,7 @@ RSpec.describe "recipes/new", :type => :view do
     recipe = stub_recipe
     assign :recipe, recipe
     allow(recipe).to receive(:ingredients).and_return([stub_ingredient])
+    allow(recipe).to receive(:steps).and_return([stub_step])
   end
 
   it "renders new recipe form" do
@@ -15,7 +16,10 @@ RSpec.describe "recipes/new", :type => :view do
         assert_select "input#recipe_ingredients_attributes_0_#{attr}[name=?]", "recipe[ingredients_attributes][0][#{attr}]"
       end
       assert_select "a[data-association=?][data-target=?]", 'ingredients', '#ingredients'
-      assert_select "textarea#recipe_directions[name=?]", "recipe[directions]"
+      %i(description idx _destroy).each do |attr|
+        assert_select "#{attr==:description ? 'textarea' : 'input'}#recipe_steps_attributes_0_#{attr}[name=?]", "recipe[steps_attributes][0][#{attr}]"
+      end
+      assert_select "a[data-association=?][data-target=?]", 'steps', '#steps'
       assert_select "a[data-association=?]", 'references'
     end
   end
@@ -28,5 +32,9 @@ RSpec.describe "recipes/new", :type => :view do
 
   def stub_ingredient
     stub_model(Ingredient).as_new_record
+  end
+
+  def stub_step
+    stub_model(Step).as_new_record
   end
 end

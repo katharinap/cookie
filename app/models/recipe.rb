@@ -4,9 +4,9 @@
 #
 #  id         :integer          not null, primary key
 #  name       :string
-#  directions :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  directions :text
 #
 
 class Recipe < ActiveRecord::Base
@@ -18,13 +18,9 @@ class Recipe < ActiveRecord::Base
   has_many :references, dependent: :destroy
   accepts_nested_attributes_for :references, allow_destroy: true
 
-  # returns an array of directions paragraphs (split by newlines)
-  def steps
-    the_steps = directions.split("\n")
-    the_steps.delete_if { |s| s.blank? }
-    the_steps
-  end
-
+  has_many :steps, dependent: :destroy
+  accepts_nested_attributes_for :steps, allow_destroy: true
+  
   def prepare_recipe(params)
     %i(name directions).each do |attr|
       self.send("#{attr}=", params[attr].strip) unless params[attr].blank?

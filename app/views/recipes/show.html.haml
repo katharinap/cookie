@@ -9,11 +9,11 @@
     = ingredient.value
     %br
 %p
-  %strong= model_class.human_attribute_name(:directions) + ':'
+  %strong= 'Directions:'
   %br
   - @recipe.steps.each do |step|
     %p
-      = step
+      = step.description
 
 - if @recipe.references.any?      
   %p

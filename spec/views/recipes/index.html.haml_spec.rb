@@ -12,12 +12,12 @@ RSpec.describe "recipes/index", :type => :view do
       assert_select "tr>td>a[href=?]", edit_recipe_path(i)
       assert_select "tr>td>a[href=?][data-method=?][data-confirm=?]", recipe_path(i), 'delete', 'Are you sure?'
     end
-    assert_select "a[href=?]", new_recipe_path
+    assert_select "a[href=?]", pre_new_recipe_path
   end
 
   protected
 
   def stub_recipe(id)
-    stub_model(Recipe, attributes_for(:recipe, id: id.to_s, name: "#{id.ordinalize} Recipe", directions: 'do something...', created_at: Time.now))
+    stub_model(Recipe, attributes_for(:recipe, id: id.to_s, name: "#{id.ordinalize} Recipe", created_at: Time.now))
   end
 end

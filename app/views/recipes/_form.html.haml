@@ -3,26 +3,35 @@
   = error_span(@recipe[:name])
 
   %h2 Ingredients
-
-  = f.fields_for :ingredients, :wrapper => false do |i_form|
-    .row.form-group
-      .col-md-11
-        = i_form.input :value, label: false, input_html: {class: 'form-control'}
-      .col-md-1
-        = i_form.link_to_remove "Remove"
-  = f.link_to_add "Add", :ingredients, data: { target: "#ingredients" }
+  #ingredients
+    = f.fields_for :ingredients, :wrapper => false do |i_form|
+      .row.form-group
+        .col-md-11
+          = i_form.input :value, label: false, input_html: {class: 'form-control'}
+        .col-md-1
+          = i_form.link_to_remove "Remove"
+    = f.link_to_add "Add", :ingredients
 
   %h2 Directions
-  
-  = f.input :directions, label: false, :input_html => { class: 'form-control', rows: 20}
-  = error_span(@recipe[:directions])
+  #steps
+    = f.fields_for :steps do |d_form|
+      .row.form-group
+        .col-md-11
+          = d_form.input :idx, label: false, as: :hidden
+          = d_form.input :description, label: false, input_html: {class: 'form-control'}
+        .col-md-1
+          = d_form.link_to_remove "Remove"
+    = f.link_to_add "Add", :steps
 
   %h2 References
-
-  = f.fields_for :references do |r_form|
-    = r_form.input :url, input_html: { placeholder: "Enter URL" }, label: false
-    = r_form.link_to_remove "Remove"
-  = f.link_to_add "Add", :references
+  #references
+    = f.fields_for :references do |r_form|
+      .row.form-group
+        .col-md-11
+          = r_form.input :url, input_html: { placeholder: "Enter URL" }, label: false, input_html: {class: 'form-control'}
+        .col-md-1
+          = r_form.link_to_remove "Remove"
+    = f.link_to_add "Add", :references
 
   %br
     
