@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :users
   get 'recipes/pre_new' => 'recipes#pre_new', as: 'pre_new_recipe'
   resources :recipes
 
