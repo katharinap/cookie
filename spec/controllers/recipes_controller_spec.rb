@@ -20,6 +20,10 @@ require 'rails_helper'
 
 RSpec.describe RecipesController, :type => :controller do
 
+  before(:all) do
+    @user = create(:user)
+  end
+  
   let(:invalid_attributes) {
     {name: ""}
   }
@@ -63,14 +67,35 @@ RSpec.describe RecipesController, :type => :controller do
   end
 
   describe "GET new" do
+    it 'redirects to the sign_in page if the user is not signed in yet' do
+      get :new, {}, valid_session
+      expect(response).to redirect_to(new_user_session_path)
+    end
+    
     it "assigns a new recipe as @recipe" do
+      sign_in @user
       get :new, {}, valid_session
       expect(assigns(:recipe)).to be_a_new(Recipe)
+      sign_out @user
     end
   end
 
+  describe "GET pre_new" do
+    it 'redirects to the sign_in page if the user is not signed in yet' do
+      get :pre_new, {}, valid_session
+      expect(response).to redirect_to(new_user_session_path)
+    end
+  end
+  
   describe "GET edit" do
+    it 'redirects to the sign_in page if the user is not signed in yet' do
+      recipe = create(:recipe)
+      get :edit, {:id => recipe.to_param}, valid_session
+      expect(response).to redirect_to(new_user_session_path)
+    end
+    
     it "assigns the requested recipe as @recipe" do
+      sign_in @user
       recipe = create(:recipe)
       ingredients = create_ingredients(recipe)
       steps = create_steps(recipe)
@@ -186,34 +211,50 @@ RSpec.describe RecipesController, :type => :controller do
   end
 
   describe "DELETE destroy" do
-    it "destroys the requested recipe" do
-      recipe = create(:recipe)
-      expect {
+    context 'not signed-in' do
+      it 'redirects to the sign_in page if the user is not signed in yet' do
+        recipe = create(:recipe)
         delete :destroy, {:id => recipe.to_param}, valid_session
-      }.to change(Recipe, :count).by(-1)
+        expect(response).to redirect_to(new_user_session_path)
+      end
     end
 
-    it "destroys the associated ingredients" do
-      recipe = create(:recipe)
-      create_ingredients(recipe)
-      expect {
-        delete :destroy, {:id => recipe.to_param}, valid_session
-      }.to change(Ingredient, :count).by(-2)
-    end
+    context 'signed-in' do
+      before(:each) do
+        sign_in @user
+      end
 
-    it "destroys the associated steps" do
-      recipe = create(:recipe)
-      create_steps(recipe)
-      expect {
-        delete :destroy, {:id => recipe.to_param}, valid_session
-      }.to change(Step, :count).by(-2)
-    end
+      after(:each) do
+        sign_out @user
+      end
+      it "destroys the requested recipe" do
+        recipe = create(:recipe)
+        expect {
+          delete :destroy, {:id => recipe.to_param}, valid_session
+        }.to change(Recipe, :count).by(-1)
+      end
 
-    it "redirects to the recipes list" do
-      recipe = create(:recipe)
-      delete :destroy, {:id => recipe.to_param}, valid_session
-      expect(response).to redirect_to(recipes_url)
+      it "destroys the associated ingredients" do
+        recipe = create(:recipe)
+        create_ingredients(recipe)
+        expect {
+          delete :destroy, {:id => recipe.to_param}, valid_session
+        }.to change(Ingredient, :count).by(-2)
+      end
+
+      it "destroys the associated steps" do
+        recipe = create(:recipe)
+        create_steps(recipe)
+        expect {
+          delete :destroy, {:id => recipe.to_param}, valid_session
+        }.to change(Step, :count).by(-2)
+      end
+
+      it "redirects to the recipes list" do
+        recipe = create(:recipe)
+        delete :destroy, {:id => recipe.to_param}, valid_session
+        expect(response).to redirect_to(recipes_url)
+      end
     end
   end
-
 end
