@@ -16,6 +16,14 @@
   #steps
     = f.fields_for :steps do |d_form|
       .row.form-group
+        .col-md-12
+          = d_form.input :picture, label: false
+          = d_form.hidden_field :picture_cache 
+      .row.form-group
+        .col-md-12
+          - if d_form.object.picture?
+            = d_form.input :remove_picture, :as => :boolean, inline_label: "Remove #{d_form.object.picture_file_name}", label: false, :input_html => { :checked => "unchecked" }
+      .row.form-group
         .col-md-11
           = d_form.input :idx, label: false, as: :hidden
           = d_form.input :description, label: false, input_html: {class: 'form-control'}

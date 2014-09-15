@@ -29,5 +29,9 @@ module Cookie
 
     # For not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # needed for carrierwave even though it should work without this
+    # line...
+    config.autoload_paths += Dir[Rails.root.join('app', 'uploaders')]
   end
 end

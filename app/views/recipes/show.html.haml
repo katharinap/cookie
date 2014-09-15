@@ -12,6 +12,7 @@
   %strong= 'Directions:'
   %br
   - @recipe.steps.each do |step|
+    = image_tag(step.picture_url) if step.picture?
     %p
       = step.description
 

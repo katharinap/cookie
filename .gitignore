@@ -18,3 +18,6 @@
 # Ignore auto-created stylesheet files
 /app/assets/stylesheets/*.css.css*
 /app/assets/stylesheets/.sass-cache/*
+
+# Ignore uploaded files
+/public/uploads

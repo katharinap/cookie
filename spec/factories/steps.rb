@@ -8,6 +8,7 @@
 #  description :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  picture     :string
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
