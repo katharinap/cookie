@@ -32,7 +32,7 @@ class Recipe < ActiveRecord::Base
     
     unless params[:ingredients].blank?
       params[:ingredients].split("\n").each do |ingredient_str|
-        ingredients.build(name: ingredient_str.strip) unless ingredient_str.strip.blank?
+        ingredients.build(value: ingredient_str.strip) unless ingredient_str.strip.blank?
       end
     end
   end

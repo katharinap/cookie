@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'recipes/pre_new' => 'recipes#pre_new'
+  get 'recipes/pre_new' => 'recipes#pre_new', as: 'pre_new_recipe'
   resources :recipes
 
   root 'recipes#index'
