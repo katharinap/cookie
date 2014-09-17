@@ -5,6 +5,5 @@
 addMyClasses = () ->
   $( ".remove_nested_fields" ).addClass( "btn btn-default" )
   $( ".add_nested_fields" ).addClass( "btn btn-default" )
-  $( "input.string" ).addClass( "form-control" )
-  
+
 $(document).on( "page:load", addMyClasses )
