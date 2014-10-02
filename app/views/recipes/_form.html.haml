@@ -1,4 +1,15 @@
 = simple_nested_form_for @recipe do |f|
+  .row.form-group
+    .col-md-12
+      .input-group
+        %span.input-group-addon
+          Picture
+        = f.input :picture, label: false
+  .row.form-group
+    .col-md-12
+      - if f.object.picture?
+        = f.input :picture_cache, as: :hidden
+        = f.input :remove_picture, as: :boolean, inline_label: "Remove #{f.object.picture_file_name}", label: false, :input_html => { :checked => "unchecked" }
   = f.input :name, label: false
   = error_span(@recipe[:name])
 

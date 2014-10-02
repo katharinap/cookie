@@ -1,5 +1,6 @@
 - model_class = Recipe
 .page-header
+  = image_tag(@recipe.picture_url) if @recipe.picture?
   %h1=t '.title', :default => title || model_class.model_name.human.titleize
 
 %p
