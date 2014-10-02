@@ -12,12 +12,8 @@
 #
 
 class Step < ActiveRecord::Base
-  belongs_to :recipe
-  mount_uploader :picture, PictureUploader
-  validates :description, presence: true
+  include WithPicture
 
-  # returns the basename of the picture file if present or nil
-  def picture_file_name
-    picture? ? File.basename(picture.to_s) : nil
-  end
+  belongs_to :recipe
+  validates :description, presence: true
 end
