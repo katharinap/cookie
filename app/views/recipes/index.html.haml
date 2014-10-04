@@ -4,12 +4,16 @@
 %table.table.table-striped
   %thead
     %tr
+      %th
       %th= model_class.human_attribute_name(:name)
       %th= model_class.human_attribute_name(:created_at)
       %th=t '.actions', :default => t("helpers.actions")
   %tbody
     - @recipes.each do |recipe|
       %tr
+        %td
+          - if recipe.picture?
+            = link_to image_tag(recipe.picture_url :thumb), recipe_path(recipe)
         %td= link_to recipe.name, recipe_path(recipe)
         %td=local_time(l recipe.created_at, format: :long)
         %td
