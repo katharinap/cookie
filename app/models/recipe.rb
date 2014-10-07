@@ -11,6 +11,8 @@
 
 class Recipe < ActiveRecord::Base
   include WithPicture
+  has_default_picture_size [800, 800]
+  has_thumb_picture_size   [50, 50]
   
   validates :name, uniqueness: true, presence: true
 
