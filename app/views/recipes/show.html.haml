@@ -3,27 +3,27 @@
   = image_tag(@recipe.picture_url) if @recipe.picture?
   %h1=t '.title', :default => title || model_class.model_name.human.titleize
 
-%p
-  %strong= 'Ingredients:'
-  %br
-  - @recipe.ingredients.each do |ingredient|
-    = ingredient.value
-    %br
-%p
-  %strong= 'Directions:'
-  %br
-  - @recipe.steps.each do |step|
-    %p
-      = image_tag(step.picture_url) if step.picture?
-      = step.description
+%h2
+  Ingredients
+.row
+  .col-md-5
+    = image_tag('veggies.jpg')
+  .col-md-7
+    %ul.list-unstyled.ingredients
+      - @recipe.ingredients.each do |ingredient|
+        %li= ingredient.value
+
+%h2 Directions
+- @recipe.steps.each do |step|
+  %p
+    = image_tag(step.picture_url) if step.picture?
+    = step.description
 
 - if @recipe.references.any?      
-  %p
-    %strong= 'References:'
-    %br
-      %ul
-        - @recipe.references.each do |reference|
-          %li= link_to reference.url, reference.url.html_safe
+  %h2 References
+  %ul
+    - @recipe.references.each do |reference|
+      %li= link_to reference.url, reference.url.html_safe
       
 = link_to t('.back', :default => t("helpers.links.back")), recipes_path, :class => 'btn btn-default'
 = link_to t('.edit', :default => t("helpers.links.edit")), edit_recipe_path(@recipe), :class => 'btn btn-default'
