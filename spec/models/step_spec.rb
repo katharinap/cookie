@@ -52,4 +52,8 @@ RSpec.describe Step, :type => :model do
       expect(build :step, step_attr).to be_invalid
     end
   end
+
+  describe '.picture' do
+    it_behaves_like "with picture", :step, { default: [200, 200] }
+  end  
 end

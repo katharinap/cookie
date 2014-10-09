@@ -25,4 +25,8 @@ RSpec.describe Recipe, :type => :model do
       expect(build(:recipe, name: "my validation recipe")).to be_valid
     end
   end
+
+  describe '.picture' do
+    it_behaves_like "with picture", :recipe, { default: [800, 800], thumb: [50, 50] }
+  end
 end
