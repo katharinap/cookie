@@ -48,6 +48,7 @@ RSpec.describe RecipesController, :type => :controller do
 
   describe "GET index" do
     it "assigns all recipes as @recipes" do
+      Recipe.destroy_all
       recipe = create(:recipe)
       get :index, {}, valid_session
       expect(assigns(:recipes)).to eq([recipe])
