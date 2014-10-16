@@ -26,9 +26,7 @@ class Recipe < ActiveRecord::Base
   accepts_nested_attributes_for :steps, allow_destroy: true, reject_if: proc { |attributes| attributes['description'].blank? }
   
   def prepare_recipe(params)
-    %i(name directions).each do |attr|
-      self.send("#{attr}=", params[attr].strip) unless params[attr].blank?
-    end
+    self.name = params[:name].strip unless params[:name].blank?
     
     unless params[:ingredients].blank?
       params[:ingredients].split("\n").each do |ingredient_str|

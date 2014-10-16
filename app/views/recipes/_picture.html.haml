@@ -1,0 +1,13 @@
+.row.form-group
+  %div{ class: form.object.picture? ? 'col-md-10' : 'col-md-11' }
+    .input-group
+      %span.input-group-addon
+        = image_tag 'camera-photo-icon.png', title: 'Upload a Picture', data: { toggle: 'tooltip' }
+      = form.input :picture, input_html: { placeholder: "Enter URL" }, label: false
+  - if form.object.picture?
+    .col-md-1
+      = form.input :picture_cache, as: :hidden
+      = form.input :remove_picture, as: :boolean, label: false, :input_html => { :checked => "unchecked" }
+    .col-md-1
+      - msg = "Remove #{form.object.picture_file_name}"
+      = image_tag('trash-icon.png', alt: msg, title: msg, data: { toggle: 'tooltip' })

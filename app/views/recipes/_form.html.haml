@@ -1,18 +1,10 @@
 = simple_nested_form_for @recipe do |f|
-  .row.form-group
-    .col-md-12
-      .input-group
-        %span.input-group-addon
-          Picture
-        = f.input :picture, label: false
-  .row.form-group
-    .col-md-12
-      - if f.object.picture?
-        = f.input :picture_cache, as: :hidden
-        = f.input :remove_picture, as: :boolean, inline_label: "Remove #{f.object.picture_file_name}", label: false, :input_html => { :checked => "unchecked" }
   = f.input :name, label: false
   = error_span(@recipe[:name])
 
+  %h2 Picture
+  = render partial: 'picture', locals: { form: f }
+      
   %h2 Ingredients
   #ingredients
     = f.fields_for :ingredients, :wrapper => false do |i_form|
@@ -20,30 +12,20 @@
         .col-md-11
           = i_form.input :value, label: false
         .col-md-1
-          = i_form.link_to_remove "Remove"
-    = f.link_to_add "Add", :ingredients
+          = i_form.link_to_remove image_tag('trash-icon.png'), title: 'Remove this Ingredient', data: { toggle: 'tooltip' }
+    = f.link_to_add image_tag('plus-icon.png'), :ingredients, title: 'Add an Ingredient', data: { toggle: 'tooltip' }
 
   %h2 Directions
   #steps
     = f.fields_for :steps do |d_form|
-      .row.form-group
-        .col-md-12
-          .input-group
-            %span.input-group-addon
-              Picture
-            = d_form.input :picture, label: false
-      .row.form-group
-        .col-md-12
-          - if d_form.object.picture?
-            = d_form.input :picture_cache, as: :hidden
-            = d_form.input :remove_picture, as: :boolean, inline_label: "Remove #{d_form.object.picture_file_name}", label: false, :input_html => { :checked => "unchecked" }
+      = render partial: 'picture', locals: { form: d_form }
       .row.form-group
         .col-md-11
           = d_form.input :idx, label: false, as: :hidden
           = d_form.input :description, label: false
         .col-md-1
-          = d_form.link_to_remove "Remove"
-    = f.link_to_add "Add", :steps
+          = d_form.link_to_remove image_tag('trash-icon.png'), title: 'Remove this Step', data: { toggle: 'tooltip' }
+    = f.link_to_add image_tag('plus-icon.png'), :steps, title: 'Add a Step', data: { toggle: 'tooltip' }
 
   %h2 References
   #references
@@ -52,10 +34,10 @@
         .col-md-11
           = r_form.input :url, input_html: { placeholder: "Enter URL" }, label: false
         .col-md-1
-          = r_form.link_to_remove "Remove"
-    = f.link_to_add "Add", :references
+          = r_form.link_to_remove image_tag('trash-icon.png'), title: 'Remove this Reference', data: { toggle: 'tooltip' }
+    = f.link_to_add image_tag('plus-icon.png'), :references, title: 'Add a Reference', data: { toggle: 'tooltip' }
 
   %br
     
-  = f.button :submit, :class => 'btn-primary'
-  = link_to t('.cancel', :default => t("helpers.links.cancel")), recipes_path, :class => 'btn btn-default'
+  = f.button :submit, '', title: 'Update this Recipe', data: { toggle: 'tooltip' }
+  = link_to image_tag('cancel-icon.png', alt: t('.cancel', :default => t("helpers.links.cancel"))), recipes_path, title: 'Cancel', data: { toggle: 'tooltip' }

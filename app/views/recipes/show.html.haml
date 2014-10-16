@@ -1,30 +1,32 @@
 - model_class = Recipe
 .page-header
-  = image_tag(@recipe.picture_url) if @recipe.picture?
+  .row.text-center
+    = image_tag(@recipe.picture_url) if @recipe.picture?
   %h1=t '.title', :default => title || model_class.model_name.human.titleize
 
-%h2
-  Ingredients
 .row
-  .col-md-5
-    = image_tag('veggies.jpg')
-  .col-md-7
+  .col-md-8
+    .recipe-directions        
+      - @recipe.steps.each do |step|
+        %p
+          = image_tag(step.picture_url) if step.picture?
+          = step.description
+
+    - if @recipe.references.any?      
+      %h4 References
+      %ul.list-unstyled.references
+        - @recipe.references.each do |reference|
+          %li= link_to reference.url, reference.url.html_safe
+
+    .btn-group
+      .btn
+        = link_to image_tag('edit-icon.png', alt: 'Edit'), edit_recipe_path(@recipe), title: 'Edit this Recipe', data: { toggle: 'tooltip' }
+      .btn
+        = link_to image_tag('trash-icon.png', alt: 'Delete'), recipe_path(@recipe), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, title: 'Delete this Recipe', data: { toggle: 'tooltip' }
+
+  .col-md-4
+    %h4 Ingredients
     %ul.list-unstyled.ingredients
       - @recipe.ingredients.each do |ingredient|
         %li= ingredient.value
-
-%h2 Directions
-- @recipe.steps.each do |step|
-  %p
-    = image_tag(step.picture_url) if step.picture?
-    = step.description
-
-- if @recipe.references.any?      
-  %h2 References
-  %ul
-    - @recipe.references.each do |reference|
-      %li= link_to reference.url, reference.url.html_safe
       
-= link_to t('.back', :default => t("helpers.links.back")), recipes_path, :class => 'btn btn-default'
-= link_to t('.edit', :default => t("helpers.links.edit")), edit_recipe_path(@recipe), :class => 'btn btn-default'
-= link_to t('.destroy', :default => t("helpers.links.destroy")), recipe_path(@recipe), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-danger'

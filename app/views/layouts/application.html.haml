@@ -15,19 +15,21 @@
     = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72'
     = favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png'
     = javascript_include_tag "application"
-
+    %link{href: 'http://fonts.googleapis.com/css?family=Open+Sans:400,600,700'.html_safe, rel: 'stylesheet', type: 'text/css'}
+    %link{href: 'http://fonts.googleapis.com/css?family=Gravitas+One'.html_safe, rel: 'stylesheet', type: 'text/css'}
 
   %body
-    .container
+    #content.container-fluid
       %header
-        %ul.nav.navbar-nav
-          %li= link_to "Recipe Index", recipes_path
-          %li.disabled= link_to "Ingredient Index", "#"
-        %ul.nav.navbar-nav.navbar-right
-          - if user_signed_in?
-            %li= link_to('Logout', destroy_user_session_path, :method => :delete)
-          - else
-            %li= link_to('Login', new_user_session_path)
+        .menu
+          .login-menu
+            - if user_signed_in?
+              = link_to image_tag('logout-icon.png', alt: 'Logout'), destroy_user_session_path, :method => :delete, title: 'Logout', data: { toggle: 'tooltip' }
+              = current_user.name
+            - else
+              = link_to image_tag('login-icon.png', alt: 'Login'), new_user_session_path, title: 'Login', data: { toggle: 'tooltip' }
+          .main-menu
+            = link_to image_tag('home-icon.png'), recipes_path, title: 'Recipe Overview', data: { toggle: 'tooltip' }
       .row
         .col-lg-12
           = bootstrap_flash
