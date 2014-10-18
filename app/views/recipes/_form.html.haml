@@ -12,21 +12,23 @@
         .col-md-11
           = i_form.input :value, label: false
         .col-md-1
-          = i_form.link_to_remove image_tag('trash-icon.png'), title: 'Remove this Ingredient', data: { toggle: 'tooltip' }
-    = f.link_to_add image_tag('plus-icon.png'), :ingredients, title: 'Add an Ingredient', data: { toggle: 'tooltip' }
-
+          = render partial: 'remove_nested_field', locals: { form: i_form, tooltip: 'Remove this Ingredient' }  
+    = render partial: 'add_nested_field', locals: { form: f, tooltip: 'Add an Ingredient' }
+        
   %h2 Directions
   #steps
-    = f.fields_for :steps do |d_form|
-      = render partial: 'picture', locals: { form: d_form }
-      .row.form-group
-        .col-md-11
-          = d_form.input :idx, label: false, as: :hidden
-          = d_form.input :description, label: false
-        .col-md-1
-          = d_form.link_to_remove image_tag('trash-icon.png'), title: 'Remove this Step', data: { toggle: 'tooltip' }
-    = f.link_to_add image_tag('plus-icon.png'), :steps, title: 'Add a Step', data: { toggle: 'tooltip' }
-
+    .list-group
+      = f.fields_for :steps do |d_form|
+        .list-group-item
+          = render partial: 'picture', locals: { form: d_form }
+          .row.form-group
+            .col-md-11
+              = d_form.input :idx, label: false, as: :hidden
+              = d_form.input :description, label: false
+            .col-md-1
+              = render partial: 'remove_nested_field', locals: { form: d_form, tooltip: 'Remove this Step' }  
+      = render partial: 'add_nested_field', locals: { form: f, tooltip: 'Add a Step' }
+        
   %h2 References
   #references
     = f.fields_for :references do |r_form|
@@ -34,10 +36,10 @@
         .col-md-11
           = r_form.input :url, input_html: { placeholder: "Enter URL" }, label: false
         .col-md-1
-          = r_form.link_to_remove image_tag('trash-icon.png'), title: 'Remove this Reference', data: { toggle: 'tooltip' }
-    = f.link_to_add image_tag('plus-icon.png'), :references, title: 'Add a Reference', data: { toggle: 'tooltip' }
+          = render partial: 'remove_nested_field', locals: { form: r_form, tooltip: 'Remove this Reference' }
+    = render partial: 'add_nested_field', locals: { form: f, tooltip: 'Add a Reference' }
 
   %br
     
-  = f.button :submit, '', title: 'Update this Recipe', data: { toggle: 'tooltip' }
-  = link_to image_tag('cancel-icon.png', alt: t('.cancel', :default => t("helpers.links.cancel"))), recipes_path, title: 'Cancel', data: { toggle: 'tooltip' }
+  = f.button :submit, 'Update', title: 'Update this Recipe', data: { toggle: 'tooltip' }, class: 'btn btn-default'
+

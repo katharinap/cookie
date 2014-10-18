@@ -7,7 +7,7 @@
       %th
       %th= model_class.human_attribute_name(:name)
       %th= model_class.human_attribute_name(:created_at)
-      %th=t '.actions', :default => t("helpers.actions")
+      %th
   %tbody
     - @recipes.each do |recipe|
       %tr
@@ -15,12 +15,12 @@
           - if recipe.picture?
             = link_to image_tag(recipe.picture_url :thumb), recipe_path(recipe)
         %td= link_to recipe.name, recipe_path(recipe)
-        %td=local_time(l recipe.created_at, format: :long)
+        %td= local_time(l recipe.created_at, format: :long)
         %td
           .btn-group
-            .btn
-              = link_to image_tag('edit-icon-small.png', alt: t('.edit', :default => t("helpers.links.edit"))), edit_recipe_path(recipe), title: 'Edit this Recipe', data: { toggle: 'tooltip' }
-            .btn
-              = link_to image_tag('trash-icon-small.png', alt: t('.destroy', :default => t("helpers.links.destroy"))), recipe_path(recipe), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, title: 'Delete this Recipe', data: { toggle: 'tooltip' }
+            .btn.btn-sm
+              = render partial: 'layouts/edit_btn', locals: { path: edit_recipe_path(recipe) }
+            .btn.btn-sm
+              = render partial: 'layouts/delete_btn', locals: { path: recipe_path(recipe) }
 
-= link_to image_tag('recipe-icon.png', alt: t('.new', :default => t("helpers.links.new"))), pre_new_recipe_path, title: 'Add a New Recipe', data: { toggle: 'tooltip' }
+= link_to image_tag('new-icon.png', alt: t('.new', :default => t("helpers.links.new"))), pre_new_recipe_path, title: 'Add a New Recipe', data: { toggle: 'tooltip' }

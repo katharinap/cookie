@@ -1,14 +1,6 @@
 html {
     height:100%;
     background-image: url(image_path("tablecloth-pattern-green.jpg"));
-    /* background-color: #e5ccff; */
-    /* background-image: */
-    /* linear-gradient(90deg, transparent 50%, white 50%), */
-    /* linear-gradient(45deg, rgba(255, 255, 255, .3) 25%, */
-    /* 		    transparent 25%, transparent 50%, */
-    /* 		    rgba(255, 255, 255, .3) 50%, rgba(255, 255, 255, .3) 75%, */
-    /* 		    transparent 75%, transparent); */
-    /* background-size:100% 100%, 100px 100px; */
 }
 
 body {
@@ -18,9 +10,10 @@ body {
     background: white;
     margin: 100px auto 20px auto;
     width: 920px;
-    padding: 20px 20px 20px 20px;
+    padding: 0 20px 20px 20px;
     border-style: solid;
     border-radius: 25px;
+    position: relative;
     /* box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.5); */
 }
 
@@ -58,3 +51,26 @@ input[type="submit"]
     height: 50px;
     background:url(image_path("finished-icon.png"));
 }
+
+.menu {
+  padding-top: 10px;
+  z-index:10;
+}
+
+
+/* bootstrap checkboxes get a float:left and margin-left:-20px to be
+on the left side of the label; compensate this shift by shifting the
+surrounding label tag to the right again to align the checkbox with
+other form elements */
+label.checkbox {
+    margin-left: 20px;
+}
+
+/* canvas { */
+/*     position:absolute; */
+/*     /\* top:0; *\/ */
+/*     left:0; */
+/*     /\* width:100%; *\/ */
+/*     /\* height:100%; *\/ */
+/*     z-index:0; */
+/* } */

@@ -2,8 +2,14 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-addMyClasses = () ->
+addMyClasses = ->
   $( ".remove_nested_fields" ).addClass( "btn btn-default" )
   $( ".add_nested_fields" ).addClass( "btn btn-default" )
 
-$(document).on( "page:load", addMyClasses )
+# simple form 'bug', should not add form-control to checkbox fields
+fixCheckBoxes = ->
+  $(':checkbox').each ->
+    $(this).removeClass('form-control')
+  
+$(document).ready( fixCheckBoxes )
+$(document).on( "page:load", fixCheckBoxes )

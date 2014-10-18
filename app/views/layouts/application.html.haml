@@ -20,16 +20,15 @@
 
   %body
     #content.container-fluid
-      %header
-        .menu
-          .login-menu
-            - if user_signed_in?
-              = link_to image_tag('logout-icon.png', alt: 'Logout'), destroy_user_session_path, :method => :delete, title: 'Logout', data: { toggle: 'tooltip' }
-              = current_user.name
-            - else
-              = link_to image_tag('login-icon.png', alt: 'Login'), new_user_session_path, title: 'Login', data: { toggle: 'tooltip' }
-          .main-menu
-            = link_to image_tag('home-icon.png'), recipes_path, title: 'Recipe Overview', data: { toggle: 'tooltip' }
+      .menu
+        .login-menu
+          - if user_signed_in?
+            = link_to image_tag('logout-icon.png', alt: 'Logout'), destroy_user_session_path, :method => :delete, title: 'Logout', data: { toggle: 'tooltip' }
+            = current_user.name
+          - else
+            = link_to image_tag('login-icon.png', alt: 'Login'), new_user_session_path, title: "You're not logged in yet...", data: { toggle: 'tooltip' }
+        .main-menu
+          = link_to image_tag('home-icon.png'), recipes_path, title: 'Recipe Overview', data: { toggle: 'tooltip' }
       .row
         .col-lg-12
           = bootstrap_flash
