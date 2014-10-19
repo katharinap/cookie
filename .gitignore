@@ -21,3 +21,5 @@
 
 # Ignore uploaded files
 /public/uploads
+/vendor/assets/javascripts/bootstrap.js
+/vendor/assets/stylesheets/.sass-cache/8c582485d6ac148bd57f8bfee0f021c2c138e81f/bootstrap.css.scssc

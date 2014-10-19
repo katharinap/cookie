@@ -13,7 +13,7 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
-//= require twitter/bootstrap
+//= require bootstrap.min
 //= require jquery_nested_form
 //= require local_time
 //= require_tree .

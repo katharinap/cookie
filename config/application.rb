@@ -38,6 +38,6 @@ module Cookie
     # production environment as well
     config.assets.precompile += %w( *.js *.css *.eot *.woff *.ttf *.svg )
     # .eot, .woff, .ttf are located under the fonts dir
-    config.assets.paths << "#{Rails}/vendor/assets/fonts"
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
   end
 end

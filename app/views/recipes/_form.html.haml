@@ -1,6 +1,5 @@
 = simple_nested_form_for @recipe do |f|
   = f.input :name, label: false
-  = error_span(@recipe[:name])
 
   %h2 Picture
   = render partial: 'picture', locals: { form: f }
