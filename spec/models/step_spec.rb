@@ -54,6 +54,6 @@ RSpec.describe Step, :type => :model do
   end
 
   describe '.picture' do
-    it_behaves_like "with picture", :step, { default: [200, 200] }
+    it_behaves_like "with picture", :step, { default: [200, 200], thumb: [50, 50] }
   end  
 end

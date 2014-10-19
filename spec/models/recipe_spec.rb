@@ -27,6 +27,6 @@ RSpec.describe Recipe, :type => :model do
   end
 
   describe '.picture' do
-    it_behaves_like "with picture", :recipe, { default: [800, 800], thumb: [50, 50] }
+    it_behaves_like "with picture", :recipe, { default: [400, 400], thumb: [50, 50] }
   end
 end
