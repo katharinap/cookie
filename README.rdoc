@@ -21,6 +21,14 @@ Things you may want to cover:
 
 * Deployment instructions
 
+=== Staging
+** git push staging maste
+** heroku run rake db:migrate --remote staging
+** heroku ps --remote staging
+** heroku open --remote staging
+=== Production
+** same as staging with --remote heroku
+
 * ...
 
 
