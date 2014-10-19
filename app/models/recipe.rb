@@ -27,10 +27,17 @@ class Recipe < ActiveRecord::Base
   
   def prepare_recipe(params)
     self.name = params[:name].strip unless params[:name].blank?
-    
-    unless params[:ingredients].blank?
-      params[:ingredients].split("\n").each do |ingredient_str|
-        ingredients.build(value: ingredient_str.strip) unless ingredient_str.strip.blank?
+
+    %i(ingredients directions).each do |attr|
+      params[attr].split("\n").each do |attr_str|
+        unless attr_str.strip.blank?
+          case attr
+          when :ingredients
+            ingredients.build(value: attr_str.strip)
+          when :directions
+            steps.build(description: attr_str.strip) 
+          end
+        end
       end
     end
   end
