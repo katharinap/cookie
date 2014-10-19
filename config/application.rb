@@ -33,5 +33,9 @@ module Cookie
     # needed for carrierwave even though it should work without this
     # line...
     config.autoload_paths += Dir[Rails.root.join('app', 'uploaders')]
+
+    # add some extensions for precopilation to enable glyphicons in
+    # production environment as well
+    config.assets.precompile += %w( *.js *.css *.eot *.woff *.ttf *.svg )
   end
 end
