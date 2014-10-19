@@ -9,8 +9,8 @@ RSpec.describe "recipes/index", :type => :view do
     render
     (1..5).each do |i|
       assert_select "tr>td>a[href=?]", recipe_path(i), text: "#{i.ordinalize} Recipe", count: 1
-      assert_select "tr>td>a[href=?]", edit_recipe_path(i)
-      assert_select "tr>td>a[href=?][data-method=?][data-confirm=?]", recipe_path(i), 'delete', 'Are you sure?'
+      assert_select "a[href=?]", edit_recipe_path(i)
+      assert_select "a[href=?][data-method=?][data-confirm=?]", recipe_path(i), 'delete', 'Are you sure?'
     end
     assert_select "a[href=?]", pre_new_recipe_path
   end

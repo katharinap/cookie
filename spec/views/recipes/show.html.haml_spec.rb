@@ -17,8 +17,7 @@ RSpec.describe "recipes/show", :type => :view do
     end
     assert_select 'p', text: 'step 1'
     assert_select 'p', text: 'step 2'
-    assert_select 'a[href=?]', recipes_path, text: 'Back'
-    assert_select 'a[href=?]', edit_recipe_path('1'), text: 'Edit'
+    assert_select 'a[href=?]', edit_recipe_path('1')
     assert_select 'a[href=?][data-method=?][data-confirm=?]', recipe_path('1'), 'delete', 'Are you sure?'
   end
 
