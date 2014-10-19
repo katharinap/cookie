@@ -37,5 +37,7 @@ module Cookie
     # add some extensions for precopilation to enable glyphicons in
     # production environment as well
     config.assets.precompile += %w( *.js *.css *.eot *.woff *.ttf *.svg )
+    # .eot, .woff, .ttf are located under the fonts dir
+    config.assets.paths << "#{Rails}/vendor/assets/fonts"
   end
 end

@@ -29,6 +29,8 @@ Things you may want to cover:
 === Production
 ** same as staging with --remote heroku
 
+* Heroku
+** logs of the production environment: ''heroku logs --remote heroku > /tmp/production.log'' 
 * ...
 
 
