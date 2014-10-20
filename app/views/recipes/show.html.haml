@@ -5,7 +5,12 @@
   %h1=t '.title', :default => title || model_class.model_name.human.titleize
 
 .row
-  .col-md-8
+  .col-md-4.col-md-push-8
+    %h4 Ingredients
+    %ul.list-unstyled.ingredients
+      - @recipe.ingredients.each do |ingredient|
+        %li= ingredient.value
+  .col-md-8.col-md-pull-4
     .recipe-directions        
       - @recipe.steps.each do |step|
         %p
@@ -24,9 +29,4 @@
       .btn.btn-default
         = render partial: 'layouts/delete_btn', locals: { path: recipe_path(@recipe) }
 
-  .col-md-4
-    %h4 Ingredients
-    %ul.list-unstyled.ingredients
-      - @recipe.ingredients.each do |ingredient|
-        %li= ingredient.value
       
