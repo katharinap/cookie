@@ -1,7 +1,8 @@
 .row.form-group
   .col-md-12
     .input-group.input-group
-      %i.glyphicon.glyphicon-picture.input-group-addon
+      .input-group-addon
+        = glyph :picture
       = form.input :picture, label: false, input_html: { title: form.object.picture_file_name || 'No Picture Selected Yet' }
 - if form.object.picture?
   = form.input :picture_cache, as: :hidden
