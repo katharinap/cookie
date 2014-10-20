@@ -16,17 +16,15 @@
         
   %h2 Directions
   #steps
-    .list-group
-      = f.fields_for :steps do |d_form|
-        .list-group-item
-          = render partial: 'picture', locals: { form: d_form }
-          .row.form-group
-            .col-md-11
-              = d_form.input :idx, label: false, as: :hidden
-              = d_form.input :description, label: false
-            .col-md-1
-              = render partial: 'remove_nested_field', locals: { form: d_form, tooltip: 'Remove this Step' }  
-      = render partial: 'add_nested_field', locals: { form: f, tooltip: 'Add a Step', target: :steps }
+    = f.fields_for :steps do |d_form|
+      = render partial: 'picture', locals: { form: d_form }
+      .row.form-group
+        .col-md-11
+          = d_form.input :idx, label: false, as: :hidden
+          = d_form.input :description, label: false, input_html: { class: 'autoExpand' }
+        .col-md-1
+          = render partial: 'remove_nested_field', locals: { form: d_form, tooltip: 'Remove this Step' }  
+    = render partial: 'add_nested_field', locals: { form: f, tooltip: 'Add a Step', target: :steps }
         
   %h2 References
   #references

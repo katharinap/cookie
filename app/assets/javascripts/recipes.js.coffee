@@ -7,9 +7,10 @@ addMyClasses = ->
   $( ".add_nested_fields" ).addClass( "btn btn-default" )
 
 # simple form 'bug', should not add form-control to checkbox fields
-fixCheckBoxes = ->
+updateInputFields = ->
   $(':checkbox').each ->
     $(this).removeClass('form-control')
-  
-$(document).ready( fixCheckBoxes )
-$(document).on( "page:load", fixCheckBoxes )
+  $('textarea').autosize();
+    
+$(document).ready( updateInputFields )
+$(document).on( "page:load", updateInputFields )
