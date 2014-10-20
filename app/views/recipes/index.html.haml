@@ -6,8 +6,8 @@
     %tr
       %th
       %th= model_class.human_attribute_name(:name)
-      %th= model_class.human_attribute_name(:created_at)
-      %th
+      %th.hidden-xs= model_class.human_attribute_name(:created_at)
+      %th.hidden-xs
   %tbody
     - @recipes.each do |recipe|
       %tr
@@ -15,8 +15,8 @@
           - if recipe.picture?
             = link_to image_tag(recipe.picture_url :thumb), recipe_path(recipe)
         %td= link_to recipe.name, recipe_path(recipe)
-        %td= local_time(l recipe.created_at, format: :long)
-        %td
+        %td.hidden-xs= local_time(l recipe.created_at, format: :long)
+        %td.hidden-xs
           .btn-group
             .btn.btn-sm
               = render partial: 'layouts/edit_btn', locals: { path: edit_recipe_path(recipe) }
