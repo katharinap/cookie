@@ -23,6 +23,7 @@
       .menu
         .login-menu
           - if user_signed_in?
+            = link_to image_tag('notepad-icon.png', alt: 'Logout'), shopping_list_path, title: 'Shopping List', data: { toggle: 'tooltip' }
             = link_to image_tag('logout-icon.png', alt: 'Logout'), destroy_user_session_path, :method => :delete, title: 'Logout', data: { toggle: 'tooltip' }
             = current_user.name
           - else
