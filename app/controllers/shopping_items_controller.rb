@@ -16,8 +16,15 @@ class ShoppingItemsController < ApplicationController
     @item = @user.shopping_items.new
   end
 
+  # we don't want to create the same item more than once.  if we
+  # already have this item, we rather want to set it to active
   def create
-    @item = @user.shopping_items.create(shopping_item_params)
+    @item = @user.shopping_items.find_by(name: shopping_item_params[:name])
+    if @item
+      @item.update(active: true)
+    else
+      @item = @user.shopping_items.create(shopping_item_params)
+    end
   end
 
   def edit
@@ -49,8 +56,9 @@ class ShoppingItemsController < ApplicationController
     @item = ShoppingItem.find(params[:id])
   end
 
+  # sorting: list active items first
   def set_items
-    @items = @user.shopping_items
+    @items = @user.shopping_items.sort_by { |item| item.active ? 0 : 1 }
   end
   
   def shopping_item_params
