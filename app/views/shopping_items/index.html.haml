@@ -1,0 +1,8 @@
+%h1 Shopping List
+
+#item-list
+  = render 'index'
+
+#item-modal.modal.fade
+  
+= link_to new_icon, new_user_shopping_item_path(@user), remote: true, data: { toggle: :modal, target: '#item-modal' }

@@ -32,4 +32,6 @@ class User < ActiveRecord::Base
 
   validates :name, presence: true
   validates :name, uniqueness: true, if: -> { self.name.present? }
+
+  has_many :shopping_items
 end

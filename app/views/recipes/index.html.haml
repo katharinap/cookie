@@ -23,4 +23,4 @@
             .btn.btn-sm
               = render partial: 'layouts/delete_btn', locals: { path: recipe_path(recipe) }
 
-= link_to image_tag('new-icon.png', alt: t('.new', :default => t("helpers.links.new"))), pre_new_recipe_path, title: 'Add a New Recipe', data: { toggle: 'tooltip' }
+= link_to new_icon, pre_new_recipe_path, title: 'Add a New Recipe', data: { toggle: 'tooltip' }

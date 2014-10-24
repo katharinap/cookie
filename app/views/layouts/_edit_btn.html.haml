@@ -1,2 +1,3 @@
-= link_to path, title: t('.edit', :default => t("helpers.links.edit")), data: { toggle: 'tooltip' } do
+- remote ||= false
+= link_to path, title: t('.edit', :default => t("helpers.links.edit")), data: { toggle: 'tooltip' }, remote: remote do
   = glyph :pencil

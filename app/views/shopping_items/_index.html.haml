@@ -1,0 +1,12 @@
+- if @items.empty?
+  .alert.alert-info
+    Your shopping list is empty...
+- else
+  %ul
+    - @items.each do |item|
+      %li
+        %span
+          = item.name
+          = render partial: 'layouts/edit_btn', locals: { path: edit_shopping_item_path(item), remote: true }
+          = link_to shopping_item_delete_path(item), :data => { toggle: 'tooltip' }, title: t('.destroy', :default => t("helpers.links.destroy")), remote: true do
+            = glyph :trash

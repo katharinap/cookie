@@ -1,2 +1,3 @@
-= link_to path, :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), toggle: 'tooltip' }, title: t('.destroy', :default => t("helpers.links.destroy")) do
+- remote ||= false
+= link_to path, :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')), toggle: 'tooltip' }, title: t('.destroy', :default => t("helpers.links.destroy")), remote: remote do
   = glyph :trash

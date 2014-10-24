@@ -1,0 +1,16 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      %h3 Delete Item
+    .modal-body
+      %ul.errors
+      Are you sure you wish to delete
+      %strong
+        = @item.name
+      = '?'
+    .modal-footer
+      .btn-group
+        .btn.btn-sm
+          = link_to 'Yes, Delete This Item', shopping_item_path(@item), method: :delete, remote: true
+        .btn.btn-sm
+          = link_to 'No, Keep It', '#', data: { dismiss: 'modal' }
