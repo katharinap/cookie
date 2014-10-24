@@ -1,6 +1,6 @@
 .modal-dialog
   .modal-content
-    = simple_form_for [@user, @item], remote: true do |f|
+    = simple_form_for @item, remote: true do |f|
       .modal-body
         %ul.errors
 

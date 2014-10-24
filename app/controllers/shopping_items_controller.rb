@@ -1,7 +1,7 @@
 class ShoppingItemsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_user
   respond_to :html, :js
-  before_action :set_user, only: %i(index create new)
-  before_action :set_user, only: %i(index create)
   
   def index
     @items = @user.shopping_items
@@ -12,12 +12,10 @@ class ShoppingItemsController < ApplicationController
   end
   
   def new
-    @user = User.find(params[:user_id])
     @item = @user.shopping_items.new
   end
 
   def create
-    @user = User.find(params[:user_id])
     @item = @user.shopping_items.create(shopping_item_params)
     @items = @user.shopping_items
   end
@@ -28,9 +26,8 @@ class ShoppingItemsController < ApplicationController
 
   def update
     @item = ShoppingItem.find(params[:id])
-    @user = @item.user
     @items = @user.shopping_items
-    @item.update_attributes(shopping_items_params)
+    @item.update_attributes(shopping_item_params)
   end
 
   def delete
@@ -39,7 +36,6 @@ class ShoppingItemsController < ApplicationController
 
   def destroy
     @item = ShoppingItem.find(params[:id])
-    @user = @item.user
     @items = @user.shopping_items
     @item.destroy
   end
@@ -47,18 +43,10 @@ class ShoppingItemsController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:user_id])
-  end
-
-  def set_items
-    @items = @user.shopping_items
+    @user = current_user
   end
   
-  def shopping_items_nested_params
-    params.require(:users).permit(shopping_items: [:name, :user_id, :id])
-  end
-
   def shopping_item_params
-    params.require(:shopping_item).permit(:name, :user_id, :id)
+    params.require(:shopping_item).permit(:name, :id)
   end
 end
