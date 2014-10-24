@@ -2,13 +2,19 @@
   .alert.alert-info
     Your shopping list is empty...
 - else
-  %ul.list-group
+  .list-group
     - @items.each do |item|
-      %li.list-group-item
-        .row
-          .col-md-1
-            = render partial: 'layouts/edit_btn', locals: { path: edit_shopping_item_path(item), remote: true }
-            = link_to shopping_item_delete_path(item), :data => { toggle: 'tooltip' }, title: t('.destroy', :default => t("helpers.links.destroy")), remote: true do
-              = glyph :trash
-          .col-md-11
+      .row
+        .col-md-10
+          - cl = "list-group-item"
+          - cl = "#{cl} disabled" unless item.active
+          = link_to toggle_active_shopping_item_path(item), remote: true, class: cl do
             = item.name
+        .col-md-2
+          .btn-group
+            .btn.btn-default
+              = render partial: 'layouts/edit_btn', locals: { path: edit_shopping_item_path(item), remote: true }
+            .btn.btn-default
+              = link_to delete_shopping_item_path(item), :data => { toggle: 'tooltip' }, title: t('.destroy', :default => t("helpers.links.destroy")), remote: true do
+                = glyph :trash
+      
