@@ -61,6 +61,9 @@ group :development, :test do
   gem 'database_cleaner'
   
   gem 'thin'
+  gem 'capybara'
+  # gem 'capybara-webkit'
+  gem 'selenium'
 end
 
 # bootstrap related gems
@@ -76,5 +79,7 @@ gem 'local_time'
 gem 'devise', :git => 'https://github.com/plataformatec/devise.git', :branch => 'lm-rails-4-2'
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
 gem 'mini_magick'
+
+# S3 setup
 gem 'fog'
 gem 'figaro'
