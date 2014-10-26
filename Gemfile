@@ -5,12 +5,8 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0.beta1'
 
-group :development, :test do
-  gem 'sqlite3'
-end
-
+gem 'pg'
 group :production do
-  gem 'pg'
   gem 'rails_12factor'
 end
 
@@ -64,6 +60,7 @@ group :development, :test do
   gem 'capybara'
   # gem 'capybara-webkit'
   gem 'selenium'
+  gem 'selenium-webdriver'
 end
 
 # bootstrap related gems

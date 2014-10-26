@@ -7,7 +7,7 @@
 #  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  active     :boolean          default("t")
+#  active     :boolean          default("true")
 #
 
 class ShoppingItem < ActiveRecord::Base
