@@ -5,16 +5,17 @@
   .list-group
     - @items.each do |item|
       .row
-        .col-md-10.col-xs-9
+        .col-md-11.col-xs-11
           - cl = "list-group-item"
           - cl = "#{cl} disabled" unless item.active
           = link_to toggle_active_shopping_item_path(item), remote: true, class: cl do
             = item.name
-        .col-md-2.col-xs-3
-          .btn-group
-            .btn.btn-default
-              = render partial: 'layouts/edit_btn', locals: { path: edit_shopping_item_path(item), remote: true }
-            .btn.btn-default
-              = link_to delete_shopping_item_path(item), :data => { toggle: 'tooltip' }, title: t('.destroy', :default => t("helpers.links.destroy")), remote: true do
-                = glyph :trash
+        .col-md-1.col-xs-1
+          - ["visible-xs btn-group-xs", "hidden-xs btn-group-default"].each do |cl|
+            .btn-group.btn-group-justified{ class: cl }
+              .btn
+                = render partial: 'layouts/edit_btn', locals: { path: edit_shopping_item_path(item), remote: true }
+              .btn
+                = link_to delete_shopping_item_path(item), :data => { toggle: 'tooltip' }, title: t('.destroy', :default => t("helpers.links.destroy")), remote: true do
+                  = glyph :trash
       
