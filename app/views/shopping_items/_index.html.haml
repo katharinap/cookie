@@ -5,12 +5,12 @@
   .list-group
     - @items.each do |item|
       .row
-        .col-md-10
+        .col-md-10.col-xs-9
           - cl = "list-group-item"
           - cl = "#{cl} disabled" unless item.active
           = link_to toggle_active_shopping_item_path(item), remote: true, class: cl do
             = item.name
-        .col-md-2
+        .col-md-2.col-xs-3
           .btn-group
             .btn.btn-default
               = render partial: 'layouts/edit_btn', locals: { path: edit_shopping_item_path(item), remote: true }
