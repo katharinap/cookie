@@ -26,3 +26,5 @@
 
 # Ignore application configuration
 /config/application.yml
+/vendor/assets/fonts/LICENSE.txt
+/vendor/assets/fonts/OFL.txt

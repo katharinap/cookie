@@ -2,7 +2,7 @@ class ShoppingItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user
   before_action :set_item, except: %i(index new create)
-  before_action :set_items, only:  %i(index create update destroy toggle_active)
+  before_action :set_items, only:  %i(index)
 
   respond_to :html, :js
   
@@ -25,6 +25,7 @@ class ShoppingItemsController < ApplicationController
     else
       @item = @user.shopping_items.create(shopping_item_params)
     end
+    set_items
   end
 
   def edit
@@ -32,6 +33,7 @@ class ShoppingItemsController < ApplicationController
 
   def update
     @item.update_attributes(shopping_item_params)
+    set_items
   end
 
   def delete
@@ -39,11 +41,13 @@ class ShoppingItemsController < ApplicationController
 
   def destroy
     @item.destroy
+    set_items
   end
   
   def toggle_active
     @item.toggle :active
     @item.save
+    set_items
   end
 
   private
@@ -58,7 +62,7 @@ class ShoppingItemsController < ApplicationController
 
   # sorting: list active items first
   def set_items
-    @items = @user.shopping_items.sort_by { |item| item.active ? 0 : 1 }
+    @items = @user.shopping_items(true).sort_by { |item| item.active ? 0 : 1 }
   end
   
   def shopping_item_params
