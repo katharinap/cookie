@@ -44,10 +44,15 @@ gem 'rails-html-sanitizer', '~> 1.0'
 group :development, :test do
   # Call 'debugger' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-
+  gem 'launchy'
+  gem 'pry-byebug'
   # # Access an IRB console on exceptions page and /console in development
   # gem 'web-console', '~> 2.0.0.beta2'
   # gem 'console.log'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request'
+  gem 'rack-mini-profiler'
   
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
