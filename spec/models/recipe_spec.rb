@@ -7,6 +7,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  picture    :string
+#  user_id    :integer
 #
 
 require 'rails_helper'
@@ -28,5 +29,16 @@ RSpec.describe Recipe, :type => :model do
 
   describe '.picture' do
     it_behaves_like "with picture", :recipe, { default: [400, 400], thumb: [50, 50] }
+  end
+
+  describe '.user_name' do
+    it 'returns the user name' do
+      user = create(:user)
+      expect(build(:recipe, user_id: user.id).user_name).to eq(user.name)
+    end
+
+    it 'returns N/A if no user is assigned' do
+      expect(build(:recipe, user_id: nil).user_name).to eq('N/A')
+    end
   end
 end

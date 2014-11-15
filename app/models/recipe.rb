@@ -7,6 +7,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  picture    :string
+#  user_id    :integer
 #
 
 class Recipe < ActiveRecord::Base
@@ -16,6 +17,8 @@ class Recipe < ActiveRecord::Base
   
   validates :name, uniqueness: true, presence: true
 
+  belongs_to :user
+  
   has_many :ingredients, dependent: :destroy
   accepts_nested_attributes_for :ingredients, allow_destroy: true, reject_if: proc { |attributes| attributes['value'].blank? }
 
@@ -24,6 +27,10 @@ class Recipe < ActiveRecord::Base
 
   has_many :steps, dependent: :destroy
   accepts_nested_attributes_for :steps, allow_destroy: true, reject_if: proc { |attributes| attributes['description'].blank? }
+
+  def user_name
+    user ? user.name : 'N/A'
+  end
   
   def prepare_recipe(params)
     self.name = params[:name].strip unless params[:name].blank?
