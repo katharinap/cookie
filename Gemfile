@@ -36,7 +36,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rails-html-sanitizer', '~> 1.0'
 
 # Use Unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -57,7 +57,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'database_cleaner'
   
-  gem 'thin'
+  # gem 'thin'
   gem 'capybara'
   # gem 'capybara-webkit'
   gem 'selenium'
