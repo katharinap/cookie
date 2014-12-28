@@ -2,6 +2,10 @@
   = hidden_field_tag :user_id, current_user_id
   = text_field_tag 'name'
 
+  %br
+  = check_box_tag 'component'
+  = label_tag 'Component Recipe'
+  
   %h2 Ingredients
   = text_area_tag 'ingredients', nil, class: 'form-control', rows: 10
 

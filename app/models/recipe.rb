@@ -43,6 +43,7 @@ class Recipe < ActiveRecord::Base
   def prepare_recipe(params)
     self.name = params[:name].try(:strip)
     self.user_id = params[:user_id]
+    self.component = params[:component]
     
     %i(ingredients directions references).each do |attr|
       next if params[attr].blank?
