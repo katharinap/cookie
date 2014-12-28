@@ -25,4 +25,4 @@
             .btn.btn-sm
               = render partial: 'layouts/delete_btn', locals: { path: recipe_path(recipe), disabled: !(allow_edit? recipe)  }
 
-= link_to new_icon, pre_new_recipe_path, title: 'Add a New Recipe', data: { toggle: 'tooltip' }
+= link_to new_icon, new_recipe_path, title: 'Add a New Recipe', data: { toggle: 'tooltip' }

@@ -1,6 +1,6 @@
 class RecipesController < ApplicationController
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:new, :pre_new, :edit, :destroy]
+  before_action :authenticate_user!, only: [:new, :edit, :destroy]
 
   # GET /recipes
   # GET /recipes.json
@@ -15,12 +15,6 @@ class RecipesController < ApplicationController
 
   # GET /recipes/new
   def new
-    @recipe = Recipe.new
-    if pre_new_params.empty?
-      @recipe.ingredients.build
-    else
-      @recipe.prepare_recipe(pre_new_params)
-    end
   end
 
   # GET /recipes/1/edit
@@ -30,13 +24,19 @@ class RecipesController < ApplicationController
   # POST /recipes
   # POST /recipes.json
   def create
-    @recipe = Recipe.new(recipe_params)
+    if new_params.empty?
+      # after re-display of new, with final form
+      @recipe = Recipe.new(recipe_params)
+    else
+      @recipe = Recipe.new.prepare_recipe(new_params)
+    end
 
     respond_to do |format|
       if @recipe.save
         format.html { redirect_to @recipe, notice: 'Recipe was successfully created.' }
         format.json { render :show, status: :created, location: @recipe }
       else
+        @render_final_form = true
         format.html { render :new }
         format.json { render json: @recipe.errors, status: :unprocessable_entity }
       end
@@ -78,7 +78,7 @@ class RecipesController < ApplicationController
       params.require(:recipe).permit(:name, :user_id, :picture, :remove_picture, :picture_cache, ingredients_attributes: [:id, :value, :_destroy], steps_attributes: [:id, :description, :picture, :remove_picture, :picture_cache, :_destroy], references_attributes: [:id, :url, :_destroy])
     end
 
-    def pre_new_params
-      params.permit(:name, :ingredients, :directions)
+    def new_params
+      params.permit(:name, :user_id, :ingredients, :directions, :references)
     end
 end

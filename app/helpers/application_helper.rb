@@ -1,7 +1,10 @@
 module ApplicationHelper
-  # if @recipe is defined, returns its name, nil otherwise
   def title
-    @recipe ? @recipe.name : nil
+    @recipe.try :name
+  end
+
+  def current_user_id
+    current_user.try :id
   end
 
   def new_icon

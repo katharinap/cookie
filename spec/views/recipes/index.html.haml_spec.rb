@@ -12,7 +12,7 @@ RSpec.describe "recipes/index", :type => :view do
     (1..5).each do |i|
       assert_select "tr>td>a[href=?]", recipe_path(i), text: "#{i.ordinalize} Recipe", count: 1
     end
-    assert_select "a[href=?]", pre_new_recipe_path
+    assert_select "a[href=?]", new_recipe_path
   end
 
   it "displays the user name" do

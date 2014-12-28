@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   end
   get '/shopping_list', to: 'shopping_items#index'
     
-  get 'recipes/pre_new' => 'recipes#pre_new', as: 'pre_new_recipe'
   resources :recipes
 
   root 'recipes#index'
