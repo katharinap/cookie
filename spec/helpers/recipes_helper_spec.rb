@@ -18,6 +18,7 @@ RSpec.describe RecipesHelper, :type => :helper do
 
       before(:each) do
         @user = stub_model(User, attributes_for(:user, id: 1))
+        allow(helper).to receive(:user_signed_in?) { true }
         allow(helper).to receive(:current_user) { @user }
       end
       
@@ -40,7 +41,7 @@ RSpec.describe RecipesHelper, :type => :helper do
     context 'user is not signed in' do
       it 'returns false' do
         recipe = stub_model(Recipe, attributes_for(:recipe, user_id: 1))
-        allow(helper).to receive(:current_user) { nil }
+        allow(helper).to receive(:user_signed_in?) { false }
         expect(helper.allow_edit? recipe).to be_falsey
       end
     end

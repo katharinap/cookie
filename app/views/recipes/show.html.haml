@@ -2,8 +2,15 @@
 .page-header
   .row.text-center
     = image_tag(@recipe.picture_url) if @recipe.picture?
+
   %h1=t '.title', :default => title || model_class.model_name.human.titleize
 
+  .recipe-user
+    = glyph :user
+    = @recipe.user_name
+    = glyph :calendar
+    = l @recipe.created_at.to_date, format: :short
+  
 .row
   .col-md-4.col-md-push-8
     %h4 Ingredients
@@ -23,10 +30,9 @@
         - @recipe.references.each do |reference|
           %li= link_to reference.url, reference.url.html_safe
 
-    .btn-group
-      .btn.btn-default
-        = render partial: 'layouts/edit_btn', locals: { path: edit_recipe_path(@recipe) }
-      .btn.btn-default
-        = render partial: 'layouts/delete_btn', locals: { path: recipe_path(@recipe) }
-
-      
+    - if allow_edit? @recipe
+      .btn-group
+        .btn.btn-default
+          = render partial: 'layouts/edit_btn', locals: { path: edit_recipe_path(@recipe) }
+        .btn.btn-default
+          = render partial: 'layouts/delete_btn', locals: { path: recipe_path(@recipe) }

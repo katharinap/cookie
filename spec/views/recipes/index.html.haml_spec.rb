@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "recipes/index", :type => :view do
   before(:each) do
+    allow(view).to receive(:user_signed_in?) { true }
     allow(view).to receive(:current_user).and_return(stub_model(User))
   end
   

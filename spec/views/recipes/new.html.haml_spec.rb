@@ -6,6 +6,7 @@ RSpec.describe "recipes/new", :type => :view do
     assign :recipe, recipe
     allow(recipe).to receive(:ingredients).and_return([stub_ingredient])
     allow(recipe).to receive(:steps).and_return([stub_step])
+    allow(view).to receive(:current_user).and_return(stub_model(User))
   end
 
   it "renders new recipe form" do

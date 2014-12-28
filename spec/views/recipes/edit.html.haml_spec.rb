@@ -6,6 +6,7 @@ RSpec.describe "recipes/edit", :type => :view do
     assign :recipe, recipe
     allow(recipe).to receive(:ingredients).and_return([stub_ingredient('1', recipe), stub_ingredient('2', recipe)])
     allow(recipe).to receive(:steps).and_return([stub_step('1', recipe), stub_step('2', recipe)])
+    allow(view).to receive(:current_user).and_return(stub_model(User))
   end
     
   it "renders the edit recipe form" do

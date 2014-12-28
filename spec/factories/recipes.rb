@@ -16,5 +16,6 @@ FactoryGirl.define do
     sequence :name do |n|
       "Awesome Recipe #{n}"
     end
+    created_at Time.now
   end
 end
