@@ -28,6 +28,11 @@ class Recipe < ActiveRecord::Base
   has_many :steps, dependent: :destroy
   accepts_nested_attributes_for :steps, allow_destroy: true, reject_if: proc { |attributes| attributes['description'].blank? }
 
+  has_many :recipe_components, dependent: :destroy
+  accepts_nested_attributes_for :recipe_components, allow_destroy: true, reject_if: proc { |attributes| attributes['component_id'].blank? }
+  has_many :components, through: :recipe_components, class_name: 'Recipe'
+  accepts_nested_attributes_for :components, allow_destroy: true
+  
   def user_name
     user ? user.name : 'N/A'
   end

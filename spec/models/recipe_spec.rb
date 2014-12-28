@@ -41,4 +41,17 @@ RSpec.describe Recipe, :type => :model do
       expect(build(:recipe, user_id: nil).user_name).to eq('N/A')
     end
   end
+
+  describe '.components', focus: true do
+    it 'returns the components of a recipe with sub-recipes' do
+      components = create_list(:recipe, 3)
+      recipe = create(:recipe)
+      components.each { |component| recipe.recipe_components.create(component_id: component.id) }
+      expect(recipe.components(true).count).to eq(3)
+    end
+
+    it 'returns an empty array for normal recipes' do
+      expect(create(:recipe).components).to be_empty
+    end
+  end
 end

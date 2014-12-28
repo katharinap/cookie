@@ -10,7 +10,11 @@
     = @recipe.user_name
     = glyph :calendar
     = l @recipe.created_at.to_date, format: :short
-  
+
+#components.panel-group{ role: 'tablist', aria: { multiselectable: 'true' } }
+  - @recipe.components.each do |recipe|
+    = render partial: 'component', locals: { recipe: recipe }
+    
 .row
   .col-md-4.col-md-push-8
     %h4 Ingredients
