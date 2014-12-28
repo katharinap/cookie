@@ -27,7 +27,7 @@ RSpec.describe "recipes/new", :type => :view do
         assert_select "input#recipe_ingredients_attributes_0_#{attr}[name=?]", "recipe[ingredients_attributes][0][#{attr}]"
       end
       assert_select "a[data-association=?]", 'ingredients'
-      %i(description idx _destroy).each do |attr|
+      %i(description _destroy).each do |attr|
         assert_select "#{attr==:description ? 'textarea' : 'input'}#recipe_steps_attributes_0_#{attr}[name=?]", "recipe[steps_attributes][0][#{attr}]"
       end
       assert_select "a[data-association=?]", 'steps'

@@ -42,7 +42,7 @@ RSpec.describe Recipe, :type => :model do
     end
   end
 
-  describe '.components', focus: true do
+  describe '.components' do
     it 'returns the components of a recipe with sub-recipes' do
       components = create_list(:recipe, 3)
       recipe = create(:recipe)
