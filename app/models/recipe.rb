@@ -8,6 +8,7 @@
 #  updated_at :datetime         not null
 #  picture    :string
 #  user_id    :integer
+#  component  :boolean          default("false")
 #
 
 class Recipe < ActiveRecord::Base
@@ -32,6 +33,8 @@ class Recipe < ActiveRecord::Base
   accepts_nested_attributes_for :recipe_components, allow_destroy: true, reject_if: proc { |attributes| attributes['component_id'].blank? }
   has_many :components, through: :recipe_components, class_name: 'Recipe'
   accepts_nested_attributes_for :components, allow_destroy: true
+
+  scope :component, -> { where(component: true) }
   
   def user_name
     user ? user.name : 'N/A'

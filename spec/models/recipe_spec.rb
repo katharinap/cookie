@@ -8,6 +8,7 @@
 #  updated_at :datetime         not null
 #  picture    :string
 #  user_id    :integer
+#  component  :boolean          default("false")
 #
 
 require 'rails_helper'
@@ -52,6 +53,20 @@ RSpec.describe Recipe, :type => :model do
 
     it 'returns an empty array for normal recipes' do
       expect(create(:recipe).components).to be_empty
+    end
+  end
+
+  describe '.component?' do
+    it 'is false by default' do
+      expect(build(:recipe)).not_to be_component
+    end
+
+    it 'returns true if component is set to true' do
+      expect(build(:recipe, component: true)).to be_component
+    end
+
+    it 'returns false if component is set to false' do
+      expect(build(:recipe, component: false)).not_to be_component
     end
   end
 end

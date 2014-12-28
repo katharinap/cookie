@@ -8,6 +8,7 @@
 #  updated_at :datetime         not null
 #  picture    :string
 #  user_id    :integer
+#  component  :boolean          default("false")
 #
 
 FactoryGirl.define do
