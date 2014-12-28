@@ -10,6 +10,7 @@ class ShoppingItemsController < ApplicationController
   end
 
   def show
+    respond_to_js
   end
   
   def new
@@ -19,16 +20,19 @@ class ShoppingItemsController < ApplicationController
   # we don't want to create the same item more than once.  if we
   # already have this item, we rather want to set it to active
   def create
-    @item = @user.shopping_items.find_by(name: shopping_item_params[:name])
-    if @item
-      @item.update(active: true)
-    else
-      @item = @user.shopping_items.create(shopping_item_params)
+    respond_to_js do
+      @item = @user.shopping_items.find_by(name: shopping_item_params[:name])
+      if @item
+        @item.update(active: true)
+      else
+        @item = @user.shopping_items.create(shopping_item_params)
+      end
+      set_items
     end
-    set_items
   end
 
   def edit
+    respond_to_js
   end
 
   def update
@@ -37,17 +41,22 @@ class ShoppingItemsController < ApplicationController
   end
 
   def delete
+    respond_to_js
   end
 
   def destroy
-    @item.destroy
-    set_items
+    respond_to_js do
+      @item.destroy
+      set_items
+    end
   end
   
   def toggle_active
-    @item.toggle :active
-    @item.save
-    set_items
+    respond_to_js do
+      @item.toggle :active
+      @item.save
+      set_items
+    end
   end
 
   private
@@ -67,5 +76,13 @@ class ShoppingItemsController < ApplicationController
   
   def shopping_item_params
     params.require(:shopping_item).permit(:name, :active, :id)
+  end
+
+  def respond_to_js
+    respond_to do |f|
+      yield if block_given?
+      f.html { render nothing: true }
+      f.js
+    end
   end
 end
