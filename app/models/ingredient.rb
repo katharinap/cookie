@@ -17,9 +17,7 @@ class Ingredient < ActiveRecord::Base
 
   private
 
-  # removes leading and trailing whitespace from name, amount and
-  # notes
-  def strip_whitespace
+   def strip_whitespace
     self.value.strip!
   end
 end

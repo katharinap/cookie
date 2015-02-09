@@ -50,12 +50,9 @@ class Recipe < ActiveRecord::Base
       params[attr].split("\n").map(&:strip).each do |str|
         next if str.blank?
         case attr
-        when :ingredients
-          ingredients.build(value: str)
-        when :directions
-          steps.build(description: str)
-        when :references
-          references.build(url: str)
+        when :ingredients then ingredients.build(value: str)
+        when :directions then steps.build(description: str)
+        when :references then references.build(url: str)
         end
       end
     end
