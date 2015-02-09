@@ -12,5 +12,11 @@ updateInputFields = ->
     $(this).removeClass('form-control')
   $('textarea').autosize();
     
-$(document).ready( updateInputFields )
+  # $(document).ready( updateInputFields )
+
+$(document).ready ->
+  updateInputFields
+  $('a[disabled=disabled]').click (event) ->
+    event.preventDefault()
+
 $(document).on( "page:load", updateInputFields )

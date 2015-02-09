@@ -1,9 +1,14 @@
 = simple_nested_form_for @recipe do |f|
+  = f.input :user_id, as: :hidden, input_html: { value: current_user_id }
   = f.input :name, label: false
-
+  = f.input :component, as: :boolean, label: false, inline_label: 'Component Recipe', input_html: { class: 'checkbox checkbox-inline' }
+  
   %h2 Picture
   = render partial: 'picture', locals: { form: f }
-      
+
+  %h2 Components
+  = f.association :components, collection: Recipe.component.all, label: false
+
   %h2 Ingredients
   #ingredients
     = f.fields_for :ingredients, :wrapper => false do |i_form|
@@ -20,7 +25,6 @@
       = render partial: 'picture', locals: { form: d_form }
       .row.form-group
         .col-md-11
-          = d_form.input :idx, label: false, as: :hidden
           = d_form.input :description, label: false, input_html: { class: 'autoExpand' }
         .col-md-1
           = render partial: 'remove_nested_field', locals: { form: d_form, tooltip: 'Remove this Step' }  

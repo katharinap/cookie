@@ -7,6 +7,8 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  picture    :string
+#  user_id    :integer
+#  component  :boolean          default("false")
 #
 
 require 'rails_helper'
@@ -28,5 +30,43 @@ RSpec.describe Recipe, :type => :model do
 
   describe '.picture' do
     it_behaves_like "with picture", :recipe, { default: [400, 400], thumb: [50, 50] }
+  end
+
+  describe '.user_name' do
+    it 'returns the user name' do
+      user = create(:user)
+      expect(build(:recipe, user_id: user.id).user_name).to eq(user.name)
+    end
+
+    it 'returns N/A if no user is assigned' do
+      expect(build(:recipe, user_id: nil).user_name).to eq('N/A')
+    end
+  end
+
+  describe '.components' do
+    it 'returns the components of a recipe with sub-recipes' do
+      components = create_list(:recipe, 3)
+      recipe = create(:recipe)
+      components.each { |component| recipe.recipe_components.create(component_id: component.id) }
+      expect(recipe.components(true).count).to eq(3)
+    end
+
+    it 'returns an empty array for normal recipes' do
+      expect(create(:recipe).components).to be_empty
+    end
+  end
+
+  describe '.component?' do
+    it 'is false by default' do
+      expect(build(:recipe)).not_to be_component
+    end
+
+    it 'returns true if component is set to true' do
+      expect(build(:recipe, component: true)).to be_component
+    end
+
+    it 'returns false if component is set to false' do
+      expect(build(:recipe, component: false)).not_to be_component
+    end
   end
 end

@@ -7,6 +7,8 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  picture    :string
+#  user_id    :integer
+#  component  :boolean          default("false")
 #
 
 class Recipe < ActiveRecord::Base
@@ -16,6 +18,8 @@ class Recipe < ActiveRecord::Base
   
   validates :name, uniqueness: true, presence: true
 
+  belongs_to :user
+  
   has_many :ingredients, dependent: :destroy
   accepts_nested_attributes_for :ingredients, allow_destroy: true, reject_if: proc { |attributes| attributes['value'].blank? }
 
@@ -24,21 +28,35 @@ class Recipe < ActiveRecord::Base
 
   has_many :steps, dependent: :destroy
   accepts_nested_attributes_for :steps, allow_destroy: true, reject_if: proc { |attributes| attributes['description'].blank? }
+
+  has_many :recipe_components, dependent: :destroy
+  accepts_nested_attributes_for :recipe_components, allow_destroy: true, reject_if: proc { |attributes| attributes['component_id'].blank? }
+  has_many :components, through: :recipe_components, class_name: 'Recipe'
+  accepts_nested_attributes_for :components, allow_destroy: true
+
+  scope :component, -> { where(component: true) }
+  
+  def user_name
+    user ? user.name : 'N/A'
+  end
   
   def prepare_recipe(params)
-    self.name = params[:name].strip unless params[:name].blank?
-
-    %i(ingredients directions).each do |attr|
-      params[attr].split("\n").each do |attr_str|
-        unless attr_str.strip.blank?
-          case attr
-          when :ingredients
-            ingredients.build(value: attr_str.strip)
-          when :directions
-            steps.build(description: attr_str.strip) 
-          end
+    self.name = params[:name].try(:strip)
+    self.user_id = params[:user_id]
+    self.component = params[:component]
+    
+    %i(ingredients directions references).each do |attr|
+      next if params[attr].blank?
+      params[attr].split("\n").map(&:strip).each do |str|
+        next if str.blank?
+        case attr
+        when :ingredients then ingredients.build(value: str)
+        when :directions then steps.build(description: str)
+        when :references then references.build(url: str)
         end
       end
     end
+
+    self
   end
 end

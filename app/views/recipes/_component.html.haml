@@ -1,0 +1,21 @@
+.panel.panel-basic
+  .panel-heading{ id: "heading#{recipe.id}", role: 'tab' }
+    %h4.panel-title
+      = link_to recipe.name, "#collapse#{recipe.id}", class: 'collapsed', data: { toggle: 'collapse', parent: '#components' }, :'aria-expanded' => 'false', :'aria-controls' => "collapse#{recipe.id}"
+  .panel-collapse.collapse{ id: "collapse#{recipe.id}", role: 'tabpanel', aria: { labeledby: "heading#{recipe.id}" } }
+    .panel-body
+      .row
+        .col-md-4.col-md-push-8
+          %h4 Ingredients
+          %ul.list-unstyled.ingredients
+            - recipe.ingredients.each do |ingredient|
+              %li= ingredient.value
+        .col-md-8.col-md-pull-4
+          .recipe-directions        
+            - recipe.steps.each do |step|
+              %p= step.description
+
+          .recipe-link
+            = link_to recipe_path(recipe), title: recipe.name, data: { toggle: 'tooltip' } do
+              = glyph :'chevron-right'
+              Go to Recipe

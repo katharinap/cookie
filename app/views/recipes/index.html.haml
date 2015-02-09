@@ -6,6 +6,7 @@
     %tr
       %th
       %th= model_class.human_attribute_name(:name)
+      %th.hidden-xs= model_class.human_attribute_name(:user)
       %th.hidden-xs= model_class.human_attribute_name(:created_at)
       %th.hidden-xs
   %tbody
@@ -15,12 +16,13 @@
           - if recipe.picture?
             = link_to image_tag(recipe.picture_url :thumb), recipe_path(recipe)
         %td= link_to recipe.name, recipe_path(recipe)
+        %td.hidden-xs= recipe.user_name
         %td.hidden-xs= local_time(l recipe.created_at, format: :long)
         %td.hidden-xs
           .btn-group
             .btn.btn-sm
-              = render partial: 'layouts/edit_btn', locals: { path: edit_recipe_path(recipe) }
+              = render partial: 'layouts/edit_btn', locals: { path: edit_recipe_path(recipe), disabled: !(allow_edit? recipe) }
             .btn.btn-sm
-              = render partial: 'layouts/delete_btn', locals: { path: recipe_path(recipe) }
+              = render partial: 'layouts/delete_btn', locals: { path: recipe_path(recipe), disabled: !(allow_edit? recipe)  }
 
-= link_to new_icon, pre_new_recipe_path, title: 'Add a New Recipe', data: { toggle: 'tooltip' }
+= link_to new_icon, new_recipe_path, title: 'Add a New Recipe', data: { toggle: 'tooltip' }

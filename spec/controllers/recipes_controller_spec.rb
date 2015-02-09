@@ -76,15 +76,8 @@ RSpec.describe RecipesController, :type => :controller do
     it "assigns a new recipe as @recipe" do
       sign_in @user
       get :new, {}, valid_session
-      expect(assigns(:recipe)).to be_a_new(Recipe)
+      expect(response).to render_template("new")
       sign_out @user
-    end
-  end
-
-  describe "GET pre_new" do
-    it 'redirects to the sign_in page if the user is not signed in yet' do
-      get :pre_new, {}, valid_session
-      expect(response).to redirect_to(new_user_session_path)
     end
   end
   
@@ -108,54 +101,70 @@ RSpec.describe RecipesController, :type => :controller do
   end
 
   describe "POST create" do
+
+    let(:recipe_attr) do
+      attr = { name: attributes_for(:recipe)[:name], user_id: 1 }
+      attr[:ingredients] = "ingredient one\ningredient two"
+      attr[:directions] = "do something\n\ndo something else" 
+      attr[:references] = "http://www.example.com/1\nhttp://www.example.com/2" 
+      attr
+    end
+    
     describe "with valid params" do
       it "creates a new Recipe" do
         expect {
-          post :create, {:recipe => attributes_for(:recipe)}, valid_session
+          post :create, attributes_for(:recipe), valid_session
         }.to change(Recipe, :count).by(1)
       end
 
       it "assigns a newly created recipe as @recipe" do
-        ingredient_attributes = attributes_for(:ingredient)
-        step_attributes = attributes_for(:step)
-        recipe_attributes = attributes_for(:recipe).merge({ ingredients_attributes: {'1' => ingredient_attributes}, steps_attributes: {'1' => step_attributes}})
-        post :create, {:recipe => recipe_attributes}, valid_session
+        post :create, recipe_attr, valid_session
         expect(assigns(:recipe)).to be_a(Recipe)
         expect(assigns(:recipe)).to be_persisted
       end
 
-      it "assigns creates the ingredients" do
-        recipe_attributes = attributes_for(:recipe).merge({ ingredients_attributes: {'1' => attributes_for(:ingredient), '2' => attributes_for(:ingredient) }})
-        post :create, {:recipe => recipe_attributes}, valid_session
+      it "assigns the ingredients" do
+        post :create, recipe_attr, valid_session
         ingredients = assigns(:recipe).ingredients
         expect(ingredients.count).to eq(2)
         expect(ingredients.first).to be_a(Ingredient)
         expect(ingredients.first).to be_persisted
       end
 
-      it "assigns creates the steps" do
-        recipe_attributes = attributes_for(:recipe).merge({ steps_attributes: {'1' => attributes_for(:step), '2' => attributes_for(:step) }})
-        post :create, {:recipe => recipe_attributes}, valid_session
+      it "assigns the steps" do
+        post :create, recipe_attr, valid_session
         steps = assigns(:recipe).steps
         expect(steps.count).to eq(2)
         expect(steps.first).to be_a(Step)
         expect(steps.first).to be_persisted
       end
 
+      it "assigns the references" do
+        post :create, recipe_attr, valid_session
+        references = assigns(:recipe).references
+        expect(references.count).to eq(2)
+        expect(references.first).to be_a(Reference)
+        expect(references.first).to be_persisted
+      end
+
       it "redirects to the created recipe" do
-        post :create, {:recipe => attributes_for(:recipe)}, valid_session
+        post :create, recipe_attr, valid_session
         expect(response).to redirect_to(Recipe.last)
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved recipe as @recipe" do
-        post :create, {:recipe => invalid_attributes}, valid_session
+        attr = recipe_attr
+        attr[:name] = ''
+        post :create, attr, valid_session
         expect(assigns(:recipe)).to be_a_new(Recipe)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:recipe => invalid_attributes}, valid_session
+        attr = recipe_attr
+        attr[:name] = ''
+        post :create, attr, valid_session
         expect(response).to render_template("new")
       end
     end
