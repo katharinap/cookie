@@ -28,7 +28,7 @@ module WithPicture
       end
 
       # * default_picture_size
-      # * defaultthumb_picture_size
+      # * thumb_picture_size
       define_method "#{pic_size}_picture_size" do
         @image_sizes[pic_size]
       end
