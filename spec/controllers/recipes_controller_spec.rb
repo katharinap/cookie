@@ -105,7 +105,7 @@ RSpec.describe RecipesController, :type => :controller do
     let(:recipe_attr) do
       attr = { name: attributes_for(:recipe)[:name], user_id: 1 }
       attr[:ingredients] = "ingredient one\ningredient two"
-      attr[:directions] = "do something\n\ndo something else" 
+      attr[:steps] = "do something\n\ndo something else" 
       attr[:references] = "http://www.example.com/1\nhttp://www.example.com/2" 
       attr
     end
@@ -173,7 +173,7 @@ RSpec.describe RecipesController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:new_attributes) {
-        {name: "New Recipe Name", directions: "lots of steps to follow..."}
+        {name: "New Recipe Name", steps: "lots of steps to follow..."}
       }
       
       it "updates the requested recipe" do

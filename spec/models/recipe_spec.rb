@@ -69,4 +69,38 @@ RSpec.describe Recipe, :type => :model do
       expect(build(:recipe, component: false)).not_to be_component
     end
   end
+
+  describe '.prepare_recipe' do
+    it 'sets the basic attribute with cleaned-up values' do
+      params = { name: 'abc ', user_id: 27, component: true }
+      recipe = Recipe.new.prepare_recipe(params)
+      expect(recipe.name).to eq('abc')
+      expect(recipe.user_id).to eq(27)
+      expect(recipe.component).to be_truthy
+    end
+
+    it 'sets the ingredients' do
+      params = { ingredients: "something good\n\nsomething else ", steps: ' ' }
+      recipe = Recipe.new.prepare_recipe(params)
+      expect(recipe.ingredients.size).to eq(2)
+      expect(recipe.ingredients.first.value).to eq('something good')
+      expect(recipe.ingredients.last.value).to eq('something else')
+      expect(recipe.steps).to be_empty
+      expect(recipe.references).to be_empty
+    end
+
+    it 'sets the steps' do
+      params = { steps: 'do something good' }
+      recipe = Recipe.new.prepare_recipe(params)
+      expect(recipe.steps.size).to eq(1)
+      expect(recipe.steps.first.description).to eq('do something good')
+    end
+
+    it 'sets the references' do
+      params = { references: 'http://www.example.com' }
+      recipe = Recipe.new.prepare_recipe(params)
+      expect(recipe.references.size).to eq(1)
+      expect(recipe.references.first.url).to eq('http://www.example.com')
+    end
+  end
 end

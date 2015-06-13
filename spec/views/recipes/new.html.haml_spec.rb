@@ -14,7 +14,7 @@ RSpec.describe "recipes/new", :type => :view do
     assert_select "form[action=?][method=?]", recipes_path, "post" do
       assert_select "input#name[name=?]", "name"
       assert_select "textarea#ingredients[name=?]", "ingredients"
-      assert_select "textarea#directions[name=?]", "directions"
+      assert_select "textarea#steps[name=?]", "steps"
     end
   end
 
