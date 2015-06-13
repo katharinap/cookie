@@ -8,7 +8,6 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
-
 class RecipeComponent < ActiveRecord::Base
   belongs_to :recipe
   belongs_to :component, class_name: 'Recipe'

@@ -8,7 +8,6 @@
 #  updated_at :datetime         not null
 #  value      :string
 #
-
 class Ingredient < ActiveRecord::Base
   belongs_to :recipe
 
@@ -17,7 +16,7 @@ class Ingredient < ActiveRecord::Base
 
   private
 
-   def strip_whitespace
-    self.value.strip!
+  def strip_whitespace
+    value.strip!
   end
 end
