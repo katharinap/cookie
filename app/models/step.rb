@@ -10,12 +10,11 @@
 #  updated_at  :datetime         not null
 #  picture     :string
 #
-
 class Step < ActiveRecord::Base
   include WithPicture
   has_default_picture_size [200, 200]
-  has_thumb_picture_size   [50, 50]
-  
+  has_thumb_picture_size [50, 50]
+
   belongs_to :recipe
   validates :description, presence: true
 end

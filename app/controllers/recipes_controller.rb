@@ -1,3 +1,4 @@
+#
 class RecipesController < ApplicationController
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, only: [:new, :edit, :destroy]
@@ -32,12 +33,7 @@ class RecipesController < ApplicationController
   # POST /recipes
   # POST /recipes.json
   def create
-    if new_params.empty?
-      # after re-display of new, with final form
-      @recipe = Recipe.new(recipe_params)
-    else
-      @recipe = Recipe.new.prepare_recipe(new_params)
-    end
+    @recipe = new_recipe
 
     respond_to do |format|
       if @recipe.save
@@ -76,17 +72,37 @@ class RecipesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_recipe
-      @recipe = Recipe.includes(:ingredients, :references, :components).find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def recipe_params
-      params.require(:recipe).permit(:name, :user_id, :component, :picture, :remove_picture, :picture_cache, ingredients_attributes: [:id, :value, :_destroy], steps_attributes: [:id, :description, :picture, :remove_picture, :picture_cache, :_destroy], references_attributes: [:id, :url, :_destroy], component_ids: [])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_recipe
+    @recipe = Recipe.includes(:ingredients, :references, :components).find(params[:id])
+  end
 
-    def new_params
-      params.permit(:name, :user_id, :component, :ingredients, :steps, :references)
+  def new_recipe
+    if new_params.empty?
+      # after re-display of new, with final form
+      Recipe.new(recipe_params)
+    else
+      Recipe.new.prepare_recipe(new_params)
     end
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def recipe_params
+    params.require(:recipe).permit(
+      :name,
+      :user_id,
+      :component,
+      :picture,
+      :remove_picture,
+      :picture_cache,
+      ingredients_attributes: [:id, :value, :_destroy],
+      steps_attributes: [:id, :description, :picture, :remove_picture, :picture_cache, :_destroy],
+      references_attributes: [:id, :url, :_destroy], component_ids: []
+    )
+  end
+
+  def new_params
+    params.permit(:name, :user_id, :component, :ingredients, :steps, :references)
+  end
 end

@@ -8,7 +8,6 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-
 class Reference < ActiveRecord::Base
   belongs_to :recipe
 end

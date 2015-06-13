@@ -9,7 +9,6 @@
 #  updated_at :datetime         not null
 #  active     :boolean          default("true")
 #
-
 class ShoppingItem < ActiveRecord::Base
   belongs_to :user
 end

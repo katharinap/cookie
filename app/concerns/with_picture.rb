@@ -1,7 +1,7 @@
 # usage:
 # migration:
 # rails generate migration add_picture_to_<model> picture:string
-# 
+#
 # <model>.rb:
 # include WithPicture
 # has_default_picture_size [800, 800]
@@ -19,6 +19,7 @@ module WithPicture
     has_default_picture_size [800, 800]
   end
 
+  # class methods
   module ClassMethods
     %i(default thumb).each do |pic_size|
       # * has_default_picture_size(size)
@@ -34,7 +35,7 @@ module WithPicture
       end
     end
   end
-  
+
   # returns the basename of the picture file if present or nil
   def picture_file_name
     picture? ? File.basename(picture.to_s) : nil

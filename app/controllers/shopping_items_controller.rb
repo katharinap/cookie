@@ -5,14 +5,14 @@ class ShoppingItemsController < ApplicationController
   before_action :set_items, only:  %i(index)
 
   respond_to :html, :js
-  
+
   def index
   end
 
   def show
     respond_to_js
   end
-  
+
   def new
     @item = @user.shopping_items.new
   end
@@ -50,7 +50,7 @@ class ShoppingItemsController < ApplicationController
       set_items
     end
   end
-  
+
   def toggle_active
     respond_to_js do
       @item.toggle :active
@@ -73,7 +73,7 @@ class ShoppingItemsController < ApplicationController
   def set_items
     @items = @user.shopping_items(true).sort_by { |item| item.active ? 0 : 1 }
   end
-  
+
   def shopping_item_params
     params.require(:shopping_item).permit(:name, :active, :id)
   end

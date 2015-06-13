@@ -23,7 +23,6 @@
 #  index_users_on_name                  (name) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
-
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -31,7 +30,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   validates :name, presence: true
-  validates :name, uniqueness: true, if: -> { self.name.present? }
+  validates :name, uniqueness: true, if: -> { name.present? }
 
   has_many :recipes
   has_many :shopping_items
